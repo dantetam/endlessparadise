@@ -11,6 +11,6 @@ public abstract class Entity {
 	public String name;
 	public ArrayList<Trait> traits = new ArrayList<Trait>();
 	
-	public String pictureFile;
+	public String pictureFile = null;
 	
 }

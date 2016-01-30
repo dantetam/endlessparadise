@@ -30,7 +30,7 @@ public class EntityGrid extends ProtectedGrid<Tile,Entity> {
 		{
 			en.location.entities.remove(en);
 			en.location = null;
-			lm.addEntity(en, row, col);
+			lm.addEntity(en, en.pictureFile, row, col);
 		}
 		else
 		{

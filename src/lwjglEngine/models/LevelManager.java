@@ -25,16 +25,27 @@ public class LevelManager {
 		camera = c;
 	}
 
-	public void addEntity(Entity en, int r, int c)
+	public void addEntity(Entity en, String fileName, int r, int c)
 	{
-		TexturedModel model = generateTexture("bluePlasma");
+		if (fileName == null)
+			fileName = loader.getRandomMonsterName();
+		//System.out.println(fileName);
+		TexturedModel model = generateTexture("res/monsters/"+fileName+".png");
+		//System.out.println("model -> " + model);
 		models.put(en, model);
+		//System.out.println(model.getTexture().textureID);
 		adjustTexture(model, r, c);
 	}
 
 	public void moveEntity(Entity en, int r, int c)
 	{
 		TexturedModel model = models.get(en);
+		if (model == null) 
+		{
+			addEntity(en,en.pictureFile,r,c);
+			//System.out.println(en + " <- model not defined");
+			return;
+		}
 		adjustTexture(model, r, c);
 	}
 

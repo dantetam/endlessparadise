@@ -6,6 +6,7 @@ import org.lwjgl.glfw.GLFW;
 
 import data.EntityData;
 import data.Names;
+import entity.Monster;
 import entity.Player;
 import levels.EntityGrid;
 import lwjglEngine.fontRendering.TextMaster;
@@ -27,6 +28,8 @@ public class MainGameLoop {
 	
 	public EntityGrid grid;
 	
+	public Loader loader;
+	
 	public static void main(String[] args)
 	{
 		new MainGameLoop();
@@ -42,7 +45,7 @@ public class MainGameLoop {
 		systems.add(inputSystem);
 
 		DisplayManager.createDisplay(this);
-		Loader loader = new Loader();
+		loader = new Loader();
 		loader.init();
 		TextMaster.init(loader);
 		Renderer renderer = new Renderer();
@@ -81,9 +84,12 @@ public class MainGameLoop {
 	
 	public void initWorld()
 	{
-		for (int i = 0; i < rows*cols/10; i++)
+		for (int i = 0; i < rows*cols/3; i++)
 		{
-			
+			Monster monster = new Monster();
+			//monster.pictureFile = "bluePlasma";
+			monster.pictureFile = loader.getRandomMonsterName();
+			grid.moveEntity(monster,(int)(Math.random()*grid.rows),(int)(Math.random()*grid.cols));
 		}
 	}
 

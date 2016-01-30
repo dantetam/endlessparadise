@@ -29,16 +29,23 @@ public class Loader {
 	private ArrayList<String> respTextureNames = new ArrayList<String>();
 
 	private ArrayList<String> monsterNames = new ArrayList<String>();
-	
+
+	private boolean init = false;
 	public void init()
 	{
-		File folder = new File("./res/monsters");
+		if (!init) init = true; else return;
+		File folder = new File("./res/monsters/");
 		File[] listOfFiles = folder.listFiles();
 
 		for (int i = 0; i < listOfFiles.length; i++) {
 			if (listOfFiles[i].isFile()) {
 				//System.out.println("File " + listOfFiles[i].getName());
-				loadTexture("./res/monsters" + listOfFiles[i].getName());
+				String name = listOfFiles[i].getName();
+				if (!name.contains("Thumbs"))
+				{
+					monsterNames.add(name.substring(0,name.length()-4));
+					loadTexture("res/bluePlasma.png");
+				}
 			}
 		}
 	}
@@ -87,20 +94,30 @@ public class Loader {
 
 	public int loadTexture(String fileName)
 	{
+		//if (fileName == null) return -1;
 		for (int i = 0; i < respTextureNames.size(); i++) //Check to see if we already loaded the texture
 		{
 			if (respTextureNames.get(i).equals(fileName))
 				return textures.get(i);
 		}
-		
+
 		BufferedImage image = null;
 		try {
-			File file = new File("res/"+fileName+".png");
+			File file = new File(fileName);
 			image = ImageIO.read(file); 
+			/*else
+			{
+				//System.out.println("file doesn't exist -> " + file);
+				file = new File(fileName);
+				image = ImageIO.read(file); 
+				return -1;
+			}*/
 		} catch (IOException e) {
-			System.out.println("Could not load res/"+fileName+".png");
-			e.printStackTrace(); 
+			//System.out.println("error");
+			System.out.println("Can't find file -> " + fileName);
+			e.printStackTrace();
 		}
+
 		final int BYTES_PER_PIXEL = 4;
 
 		int[] pixels = new int[image.getWidth() * image.getHeight()];
@@ -115,7 +132,7 @@ public class Loader {
 				byte g = (byte)((pixel >> 8) & 0xFF);
 				byte b = (byte)(pixel & 0xFF);
 				byte a = (byte)((pixel >> 24) & 0xFF);
-				if (r == 0xFF && g == 0x00 && b == 0xFF)
+				if (r == 0xFF && g == 0x00 && b == 0xFF) //If bright purple/pink, industry standard for sprites
 					a = 0x00;
 				buffer.put(r);   
 				buffer.put(g);      
@@ -212,9 +229,10 @@ public class Loader {
 		buffer.flip();
 		return buffer;
 	}
-	
-	public String getMonsterName() 
+
+	public String getRandomMonsterName() 
 	{
+		init();
 		if (monsterNames.size() == 0) 
 			return null;
 		return monsterNames.get((int)(Math.random()*monsterNames.size()));
