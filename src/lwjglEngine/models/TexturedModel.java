@@ -6,6 +6,7 @@ public class TexturedModel {
 
 	private RawModel rawModel;
 	private ModelTexture texture;
+	public boolean active = true;
 	
 	public TexturedModel(RawModel m, ModelTexture t)
 	{
