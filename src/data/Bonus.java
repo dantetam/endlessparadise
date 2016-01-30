@@ -9,7 +9,7 @@ public class Bonus {
 	public double dmgP, blkP, parP; //Proportion bonus 
 	
 	public double atkF, strF, defF, agiF; //Flat skill bonus
-	public double magicF, rangedF;
+	public double magF, rngF;
 	
 	public void setBonuses(double a, double b, double c, double d, double e, double f)
 	{
@@ -20,7 +20,7 @@ public class Bonus {
 	public void setSkillBonuses(double a, double b, double c, double d, double e, double f)
 	{
 		atkF = a; strF = b; defF = c; agiF = d; 
-		magicF = e; rangedF = f;
+		magF = e; rngF = f;
 	}
 	
 }

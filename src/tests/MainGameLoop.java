@@ -21,7 +21,8 @@ public class MainGameLoop {
 
 	public ArrayList<BaseSystem> systems = new ArrayList<BaseSystem>();
 	public InputSystem inputSystem;
-
+	public static final int rows = 100, cols = 100;
+	
 	public EntityGrid grid;
 	
 	public static void main(String[] args)
@@ -45,12 +46,14 @@ public class MainGameLoop {
 		//Just do some silly stuff to make sure all the data is initialized.
 		//NullPointerExceptions arise when data is declared and asked for in the incorrect order
 		LevelManager lm = null;
-		grid = new EntityGrid(loader,lm,100,100);
+		grid = new EntityGrid(loader,lm,rows,cols);
 		Player player = new Player();
-		player.location = grid.getTile(50,50);
+		player.location = grid.getTile(rows/2,cols/2);
 		lm = new LevelManager(grid,loader,player);
 		grid.lm = lm;
-		grid.moveEntity(player,50,50);
+		grid.moveEntity(player,rows/2,cols/2);
+		
+		initWorld();
 		
 		//Keep updating the display until the user exits
 		while (!DisplayManager.requestClose())
@@ -69,6 +72,14 @@ public class MainGameLoop {
 		shader.cleanUp();
 		loader.cleanData();
 		DisplayManager.closeDisplay();
+	}
+	
+	public void initWorld()
+	{
+		for (int i = 0; i < rows*cols/10; i++)
+		{
+			
+		}
 	}
 
 }

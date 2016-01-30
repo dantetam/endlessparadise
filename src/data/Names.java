@@ -9,8 +9,8 @@ public class Names {
 	public static String[] prepositions;
 	public static ArrayList<ArrayList<String>> structures;
 
-	public boolean init = false;
-	public void init()
+	public static boolean init = false;
+	public static void init()
 	{
 		if (!init)
 		{
@@ -25,6 +25,28 @@ public class Names {
 			structures.add(list("n","p","a"));
 			structures.add(list("a","n","p","a"));
 		}
+		//adjectives = new String[]{"a","b","c"};
+		adjectives = readAdjectives();
+		nouns = new String[]{"x","y","z"};
+		prepositions = new String[]{"of","at","in","from"};
+	}
+
+	private static String[] readAdjectives()
+	{
+		In in = new In("/res/traits.txt");
+		int line = 0;
+		String[] temp = null;
+		while (!in.isEmpty()) 
+		{
+			if (line == 0)
+				temp = new String[in.readInt()];
+			else if (line <= temp.length)
+				temp[line-1] = in.readString();
+			else
+				break;
+			line++;
+		}
+		return temp;
 	}
 
 	public static String randomName()
@@ -34,6 +56,7 @@ public class Names {
 		for (String s: structure)
 		{
 			String[] candidates;
+			boolean capitalize = true;
 			switch (s)
 			{
 			case "a":
@@ -44,17 +67,26 @@ public class Names {
 				break;
 			case "p":
 				candidates = prepositions;
+				capitalize = false;
 				break;
 			default:
 				candidates = null;
+				capitalize = false;
 				break;
 			}
-			temp += candidates[(int)(Math.random()*candidates.length)] + " ";
+			String word = candidates[(int)(Math.random()*candidates.length)];
+			if (capitalize)
+			{
+				String tempString = "" + Character.toUpperCase(word.charAt(0));
+				if (word.length() > 1) tempString += word.substring(1);
+				word = tempString;
+			}
+			temp += word + " ";
 		}
 		return temp.substring(0,temp.length()); //Remove trailing space
 	}
 
-	public ArrayList<String> list(String... looseStrings)
+	public static ArrayList<String> list(String... looseStrings)
 	{
 		ArrayList<String> temp = new ArrayList<String>();
 		for (String s: looseStrings)
