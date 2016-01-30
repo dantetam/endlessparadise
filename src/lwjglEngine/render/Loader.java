@@ -120,17 +120,26 @@ public class Loader {
 
 		final int BYTES_PER_PIXEL = 4;
 
+		int[] temp = new int[image.getWidth() * image.getHeight()];
+		image.getRGB(0, 0, image.getWidth(), image.getHeight(), temp, 0, image.getWidth());
+
 		int[] pixels = new int[image.getWidth() * image.getHeight()];
-		image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
+		for (int i = 0; i < pixels.length; i++)
+			pixels[i] = temp[pixels.length - 1 - i];
 		
 		ByteBuffer buffer = BufferUtils.createByteBuffer(image.getWidth() * image.getHeight() * BYTES_PER_PIXEL); //4 for RGBA, 3 for RGB
 		for (int y = 0; y < image.getHeight(); y++)
 			for (int x = 0; x < image.getWidth(); x++)
 			{
 				int i = y;
-				if (fileName.contains("/monster"))
+				int pixel;
+				/*if (fileName.contains("/monster"))
+				{
 					i = image.getHeight() - y;
-				int pixel = pixels[y * image.getWidth() + x];
+					pixel = pixels[(i-y) * image.getWidth() - x];
+				}
+				else*/
+					pixel = pixels[y * image.getWidth() + x];
 				//byte a = (byte)((pixel >> 24) & 0xFF);
 				byte r = (byte)((pixel >> 16) & 0xFF);
 				byte g = (byte)((pixel >> 8) & 0xFF);
@@ -173,7 +182,7 @@ public class Loader {
 		GL11.glEnable(GL11.GL_BLEND);
 
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		
+
 		//Setup wrap mode
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP);
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP);
