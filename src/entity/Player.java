@@ -4,7 +4,7 @@ import levels.Tile;
 
 public class Player extends CombatEntity {
 
-	public static int sightXHalf = 1, sightYHalf = 1;
+	public static int sightXHalf = 8, sightYHalf = 4;
 
 	public Player()
 	{

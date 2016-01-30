@@ -17,7 +17,7 @@ import tests.MainGameLoop;
 
 public class DisplayManager {
 
-	public static final int width = 1500, height = 900;
+	public static final int width = 1700, height = 900;
 	public static long window;
 
 	private static GLFWErrorCallback errorCallback; 

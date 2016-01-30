@@ -6,6 +6,7 @@ import org.lwjgl.glfw.GLFW;
 
 import entity.Player;
 import levels.EntityGrid;
+import lwjglEngine.fontRendering.TextMaster;
 import lwjglEngine.models.LevelManager;
 import lwjglEngine.models.RawModel;
 import lwjglEngine.models.TexturedModel;
@@ -37,6 +38,7 @@ public class MainGameLoop {
 
 		DisplayManager.createDisplay(this);
 		Loader loader = new Loader();
+		TextMaster.init(loader);
 		Renderer renderer = new Renderer();
 		StaticShader shader = new StaticShader();
 		
