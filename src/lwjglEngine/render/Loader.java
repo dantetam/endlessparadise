@@ -28,6 +28,8 @@ public class Loader {
 	private ArrayList<Integer> textures = new ArrayList<Integer>();
 	private ArrayList<String> respTextureNames = new ArrayList<String>();
 
+	private ArrayList<String> monsterNames = new ArrayList<String>();
+	
 	public void init()
 	{
 		File folder = new File("./res/monsters");
@@ -85,6 +87,12 @@ public class Loader {
 
 	public int loadTexture(String fileName)
 	{
+		for (int i = 0; i < respTextureNames.size(); i++) //Check to see if we already loaded the texture
+		{
+			if (respTextureNames.get(i).equals(fileName))
+				return textures.get(i);
+		}
+		
 		BufferedImage image = null;
 		try {
 			File file = new File("res/"+fileName+".png");
@@ -103,10 +111,16 @@ public class Loader {
 			for (int x = 0; x < image.getWidth(); x++)
 			{
 				int pixel = pixels[y * image.getWidth() + x];
-				buffer.put((byte) ((pixel >> 16) & 0xFF));   
-				buffer.put((byte) ((pixel >> 8) & 0xFF));      
-				buffer.put((byte) (pixel & 0xFF));            
-				buffer.put((byte) ((pixel >> 24) & 0xFF));   
+				byte r = (byte)((pixel >> 16) & 0xFF);
+				byte g = (byte)((pixel >> 8) & 0xFF);
+				byte b = (byte)(pixel & 0xFF);
+				byte a = (byte)((pixel >> 24) & 0xFF);
+				if (r == 0xFF && g == 0x00 && b == 0xFF)
+					a = 0x00;
+				buffer.put(r);   
+				buffer.put(g);      
+				buffer.put(b);            
+				buffer.put(a);   
 			}
 		buffer.flip();
 
@@ -197,6 +211,13 @@ public class Loader {
 		buffer.put(data);
 		buffer.flip();
 		return buffer;
+	}
+	
+	public String getMonsterName() 
+	{
+		if (monsterNames.size() == 0) 
+			return null;
+		return monsterNames.get((int)(Math.random()*monsterNames.size()));
 	}
 
 }
