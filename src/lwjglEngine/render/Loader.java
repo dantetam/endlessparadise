@@ -122,18 +122,44 @@ public class Loader {
 
 		int[] pixels = new int[image.getWidth() * image.getHeight()];
 		image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
-
+		
 		ByteBuffer buffer = BufferUtils.createByteBuffer(image.getWidth() * image.getHeight() * BYTES_PER_PIXEL); //4 for RGBA, 3 for RGB
 		for (int y = 0; y < image.getHeight(); y++)
 			for (int x = 0; x < image.getWidth(); x++)
 			{
+				int i = y;
+				if (fileName.contains("/monster"))
+					i = image.getHeight() - y;
 				int pixel = pixels[y * image.getWidth() + x];
+				//byte a = (byte)((pixel >> 24) & 0xFF);
 				byte r = (byte)((pixel >> 16) & 0xFF);
 				byte g = (byte)((pixel >> 8) & 0xFF);
 				byte b = (byte)(pixel & 0xFF);
-				byte a = (byte)((pixel >> 24) & 0xFF);
-				if (r == 0xFF && g == 0x00 && b == 0xFF) //If bright purple/pink, industry standard for sprites
-					a = 0x00;
+				//if (Math.random() < 0.001)
+				//System.out.println(a);
+				/*if (r > 0xEE && g == 0x00 && b > 0xEE) //If bright purple/pink, industry standard for sprites
+				{
+					r = (byte)0xff; g = 0; b = 0;
+					a = (byte)0xfe;
+				}
+				else if (r == -1 && g == 0 && b == -1)
+				{
+					r = (byte)0xff; g = 0; b = 0;
+					a = (byte)0xfe;
+				}*/
+				/*if (Math.random() < 0.001)
+				{
+					System.out.println((byte)r + " " + (byte)g + " " + (byte)b + " " + (byte)a);
+					System.out.println((r == -1 && g == 0 && b == -1));
+				}*/
+				/*if (r > 0xEE && g < 0x0f && b > 0xEE) //If bright purple/pink, industry standard for sprites
+				{
+					r = (byte)0xff; g = 0; b = 0;
+					a = (byte)0;
+				}*/
+				byte a = (byte)0xff;
+				if (r == -1 && g == 0 && b == -1)
+					a = (byte)0x00;
 				buffer.put(r);   
 				buffer.put(g);      
 				buffer.put(b);            
@@ -144,6 +170,10 @@ public class Loader {
 		int textureID = GL11.glGenTextures(); //Generate texture ID
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID); //Bind texture ID
 
+		GL11.glEnable(GL11.GL_BLEND);
+
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		
 		//Setup wrap mode
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP);
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP);

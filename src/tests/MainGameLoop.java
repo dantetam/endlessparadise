@@ -84,7 +84,7 @@ public class MainGameLoop {
 	
 	public void initWorld()
 	{
-		for (int i = 0; i < rows*cols/3; i++)
+		for (int i = 0; i < rows*cols/6; i++)
 		{
 			Monster monster = new Monster();
 			//monster.pictureFile = "bluePlasma";
