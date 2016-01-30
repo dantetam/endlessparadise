@@ -15,7 +15,7 @@ public class EntityData {
 
 	private static void initTraits()
 	{
-		In in = new In("/res/traits.txt");
+		In in = new In("./res/traits.txt");
 
 		int line = 0;
 		int items = 0;

@@ -26,6 +26,20 @@ public class Loader {
 	private ArrayList<Integer> vaos = new ArrayList<Integer>();
 	private ArrayList<Integer> vbos = new ArrayList<Integer>();
 	private ArrayList<Integer> textures = new ArrayList<Integer>();
+	private ArrayList<String> respTextureNames = new ArrayList<String>();
+
+	public void init()
+	{
+		File folder = new File("./res/monsters");
+		File[] listOfFiles = folder.listFiles();
+
+		for (int i = 0; i < listOfFiles.length; i++) {
+			if (listOfFiles[i].isFile()) {
+				//System.out.println("File " + listOfFiles[i].getName());
+				loadTexture("./res/monsters" + listOfFiles[i].getName());
+			}
+		}
+	}
 
 	//Create a new model from float data, which accessed by the renderer
 	public RawModel loadToVAO(float[] pos, float[] textureCoords, int[] indices)
@@ -112,6 +126,7 @@ public class Loader {
 
 		//Store later for deleting
 		textures.add(textureID);
+		respTextureNames.add(fileName);
 		//Return the texture ID so we can bind it later again
 		return textureID;
 	}
@@ -125,6 +140,7 @@ public class Loader {
 			GL15.glDeleteBuffers(i);
 		for (int i: textures)
 			GL11.glDeleteTextures(i);
+		respTextureNames.clear();
 	}
 
 	//Request a new VAO id, store that ID, and bind it

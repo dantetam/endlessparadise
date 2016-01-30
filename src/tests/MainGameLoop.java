@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.lwjgl.glfw.GLFW;
 
+import data.EntityData;
+import data.Names;
 import entity.Player;
 import levels.EntityGrid;
 import lwjglEngine.fontRendering.TextMaster;
@@ -33,12 +35,15 @@ public class MainGameLoop {
 	public MainGameLoop()
 	{
 		GLFW.glfwInit();
+		EntityData.init();
+		Names.init();
 		
 		inputSystem = new InputSystem(this);
 		systems.add(inputSystem);
 
 		DisplayManager.createDisplay(this);
 		Loader loader = new Loader();
+		loader.init();
 		TextMaster.init(loader);
 		Renderer renderer = new Renderer();
 		StaticShader shader = new StaticShader();

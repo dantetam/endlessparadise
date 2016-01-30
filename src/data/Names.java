@@ -33,7 +33,7 @@ public class Names {
 
 	private static String[] readAdjectives()
 	{
-		In in = new In("/res/traits.txt");
+		In in = new In("./res/traits.txt");
 		int line = 0;
 		String[] temp = null;
 		while (!in.isEmpty()) 
