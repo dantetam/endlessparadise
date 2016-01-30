@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import org.lwjgl.glfw.GLFW;
 
+import levels.EntityGrid;
+import levels.PlayerCamera;
+import lwjglEngine.models.LevelManager;
 import lwjglEngine.models.RawModel;
 import lwjglEngine.models.TexturedModel;
 
@@ -17,6 +20,9 @@ public class MainGameLoop {
 
 	public ArrayList<BaseSystem> systems = new ArrayList<BaseSystem>();
 	public InputSystem inputSystem;
+	
+	public LevelManager lm;
+	public EntityGrid grid;
 	
 	public static void main(String[] args)
 	{
@@ -34,32 +40,19 @@ public class MainGameLoop {
 		Loader loader = new Loader();
 		Renderer renderer = new Renderer();
 		StaticShader shader = new StaticShader();
-
-		//counter clockwise vertices
-		float[] vertices = {
-				//Left bottom and top right, resp.
-				-0.5f, 0.5f, 0f,	
-				-0.5f, -0.5f, 0f,
-				0.5f, -0.5f, 0f,
-				0.5f, 0.5f, 0f
-		};
-
-		//order in which to transverse the vertices
-		int[] indices = {0,1,3,3,1,2};
-
-		//respective u,v vertex of texture to map to
-		float[] textureCoords = {0,0,0,1,1,1,1,0};
-
-		RawModel model = loader.loadToVAO(vertices, textureCoords, indices);
-		ModelTexture texture = new ModelTexture(loader.loadTexture("blueplasma"));
-		TexturedModel texturedModel = new TexturedModel(model, texture);
-
+		
+		grid = new EntityGrid(loader,null,100,100);
+		PlayerCamera camera = new PlayerCamera(grid.getTile(50,50),14,7);
+		lm = new LevelManager(grid,loader,camera);
+		grid.lm = lm;
+		
 		//Keep updating the display until the user exits
 		while (!DisplayManager.requestClose())
 		{
 			renderer.prepare();
 			shader.start(); //Enable shader
-			renderer.render(texturedModel);
+			renderer.render(lm);
+			//renderer.render(texturedModel);
 			shader.stop(); //Disable shader when the draw is done
 			for (int i = 0; i < systems.size(); i++)
 				systems.get(i).tick();

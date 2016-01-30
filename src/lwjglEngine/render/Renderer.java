@@ -1,12 +1,17 @@
 package lwjglEngine.render;
 
+import lwjglEngine.models.LevelManager;
 import lwjglEngine.models.RawModel;
 import lwjglEngine.models.TexturedModel;
+
+import java.util.Map.Entry;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+
+import entity.Entity;
 
 public class Renderer {
 
@@ -14,6 +19,14 @@ public class Renderer {
 	{
 		GL11.glClearColor(0,0,0,0);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+	}
+	
+	public void render(LevelManager lm)
+	{
+		for (Entry<Entity,TexturedModel> entry: lm.models.entrySet())
+		{
+			render(entry.getValue());
+		}
 	}
 	
 	//The textured model encapsulates a RawModel

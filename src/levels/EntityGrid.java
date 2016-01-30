@@ -8,10 +8,19 @@ public class EntityGrid extends ProtectedGrid<Tile,Entity> {
 
 	public LevelManager lm;
 
-	public EntityGrid(Loader loader, PlayerCamera camera, int rows, int cols) {
+	public EntityGrid(Loader loader, LevelManager lm, int rows, int cols) {
 		super(rows, cols);
-		lm = new LevelManager(this, loader, camera);
+		this.lm = lm;
+		//lm = new LevelManager(this, loader,);
 		// TODO Auto-generated constructor stub
+		tiles = new Tile[rows][cols];
+		for (int r = 0; r < rows; r++)
+		{
+			for (int c = 0; c < cols; c++)
+			{
+				tiles[r][c] = new Tile(r,c);
+			}
+		}
 	}
 
 	public void moveEntity(Entity en, int row, int col)
