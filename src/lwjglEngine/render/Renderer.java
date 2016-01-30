@@ -25,7 +25,9 @@ public class Renderer {
 	{
 		for (Entry<Entity,TexturedModel> entry: lm.models.entrySet())
 		{
-			render(entry.getValue());
+			TexturedModel model = entry.getValue();
+			if (model.active)
+				render(model);
 		}
 	}
 	

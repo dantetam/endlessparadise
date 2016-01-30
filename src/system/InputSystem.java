@@ -20,11 +20,12 @@ public class InputSystem extends BaseSystem {
 		while (clicks.size() > 0)
 		{
 			Click click = clicks.remove(0);
-			System.out.println(click.posX + " " + click.posY);
+			System.out.println("Click position: " + click.posX + " " + click.posY);
 		}
 		while (presses.size() > 0)
 		{
 			Press press = presses.remove(0);
+			System.out.println("Key " + press.key);
 		}
 	}
 

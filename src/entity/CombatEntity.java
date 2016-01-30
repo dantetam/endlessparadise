@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import data.Equipment;
 import data.Weapon;
 
-public class CombatEntity extends Entity {
+public abstract class CombatEntity extends Entity {
 
 	public int hp;
 	//Completely original combat system.

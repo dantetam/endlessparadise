@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.glfw.GLFW;
 
+import entity.Player;
 import levels.EntityGrid;
 import levels.PlayerCamera;
 import lwjglEngine.models.LevelManager;
@@ -42,8 +43,9 @@ public class MainGameLoop {
 		StaticShader shader = new StaticShader();
 		
 		grid = new EntityGrid(loader,null,100,100);
-		PlayerCamera camera = new PlayerCamera(grid.getTile(50,50),14,7);
-		lm = new LevelManager(grid,loader,camera);
+		Player player = new Player();
+		grid.addEntity(player,50,50);
+		lm = new LevelManager(grid,loader,player);
 		grid.lm = lm;
 		
 		//Keep updating the display until the user exits

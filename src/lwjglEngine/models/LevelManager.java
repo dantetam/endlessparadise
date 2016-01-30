@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import entity.Entity;
-import levels.PlayerCamera;
+import entity.Player;
 import levels.ProtectedGrid;
 import levels.Tile;
 import lwjglEngine.render.DisplayManager;
@@ -16,9 +16,9 @@ public class LevelManager {
 	public HashMap<Entity,TexturedModel> models = new HashMap<Entity,TexturedModel>();
 	public ProtectedGrid<Tile,Entity> grid;
 	public Loader loader;
-	public PlayerCamera camera;
+	public Player camera;
 
-	public LevelManager(ProtectedGrid<Tile,Entity> g, Loader l, PlayerCamera c)
+	public LevelManager(ProtectedGrid<Tile,Entity> g, Loader l, Player c)
 	{
 		grid = g;
 		loader = l;
@@ -66,7 +66,7 @@ public class LevelManager {
 		return texturedModel;
 	}
 
-	public void adjustTexture(TexturedModel model, PlayerCamera camera, int r, int c)
+	public void adjustTexture(TexturedModel model, Player camera, int r, int c)
 	{
 		int minX = camera.location.row - camera.sightXHalf, maxX = camera.location.row + camera.sightXHalf;
 		int minY = camera.location.col - camera.sightYHalf, maxY = camera.location.col + camera.sightYHalf;
