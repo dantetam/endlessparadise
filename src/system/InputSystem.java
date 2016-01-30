@@ -7,7 +7,7 @@ import tests.MainGameLoop;
 public class InputSystem extends BaseSystem {
 
 	public ArrayList<Click> clicks = new ArrayList<Click>();
-	public ArrayList<Press> presses = new ArrayList<Press>();
+	public ArrayList<KeyPress> presses = new ArrayList<KeyPress>();
 
 	public InputSystem(MainGameLoop game) {
 		super(game);
@@ -24,7 +24,7 @@ public class InputSystem extends BaseSystem {
 		}
 		while (presses.size() > 0)
 		{
-			Press press = presses.remove(0);
+			KeyPress press = presses.remove(0);
 			System.out.println("Key " + press.key);
 		}
 	}
@@ -33,6 +33,6 @@ public class InputSystem extends BaseSystem {
 		float posX, posY; int action, button; 
 		public Click(float x, float y, int a, int b) {posX = x; posY = y; action = a; button = b;}
 	}
-	public class Press {int key, action; public Press(int k, int a) {key = k; action = a;}}
-
+	public class KeyPress {int key, action; public KeyPress(int k, int a) {key = k; action = a;}}
+	
 }

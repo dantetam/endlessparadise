@@ -6,7 +6,6 @@ import org.lwjgl.glfw.GLFW;
 
 import entity.Player;
 import levels.EntityGrid;
-import levels.PlayerCamera;
 import lwjglEngine.models.LevelManager;
 import lwjglEngine.models.RawModel;
 import lwjglEngine.models.TexturedModel;
@@ -21,8 +20,7 @@ public class MainGameLoop {
 
 	public ArrayList<BaseSystem> systems = new ArrayList<BaseSystem>();
 	public InputSystem inputSystem;
-	
-	public LevelManager lm;
+
 	public EntityGrid grid;
 	
 	public static void main(String[] args)
@@ -42,11 +40,15 @@ public class MainGameLoop {
 		Renderer renderer = new Renderer();
 		StaticShader shader = new StaticShader();
 		
-		grid = new EntityGrid(loader,null,100,100);
+		//Just do some silly stuff to make sure all the data is initialized.
+		//NullPointerExceptions arise when data is declared and asked for in the incorrect order
+		LevelManager lm = null;
+		grid = new EntityGrid(loader,lm,100,100);
 		Player player = new Player();
-		grid.addEntity(player,50,50);
+		player.location = grid.getTile(50,50);
 		lm = new LevelManager(grid,loader,player);
 		grid.lm = lm;
+		grid.moveEntity(player,50,50);
 		
 		//Keep updating the display until the user exits
 		while (!DisplayManager.requestClose())

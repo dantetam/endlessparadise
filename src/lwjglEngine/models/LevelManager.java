@@ -27,14 +27,15 @@ public class LevelManager {
 
 	public void addEntity(Entity en, int r, int c)
 	{
-		TexturedModel model = models.put(en, generateTexture("bluePlasma"));
-		adjustTexture(model, camera, r, c);
+		TexturedModel model = generateTexture("bluePlasma");
+		models.put(en, model);
+		adjustTexture(model, r, c);
 	}
 
 	public void moveEntity(Entity en, int r, int c)
 	{
 		TexturedModel model = models.get(en);
-		adjustTexture(model, camera, r, c);
+		adjustTexture(model, r, c);
 	}
 
 	public void removeEntity(Entity en)
@@ -66,8 +67,10 @@ public class LevelManager {
 		return texturedModel;
 	}
 
-	public void adjustTexture(TexturedModel model, Player camera, int r, int c)
+	public void adjustTexture(TexturedModel model, int r, int c)
 	{
+		//System.out.println(camera.location);
+		if (camera.location == null) camera.location = grid.getTile(50,50);
 		int minX = camera.location.row - camera.sightXHalf, maxX = camera.location.row + camera.sightXHalf;
 		int minY = camera.location.col - camera.sightYHalf, maxY = camera.location.col + camera.sightYHalf;
 		if (r >= minX && r <= maxX && c >= minY && c <= maxY)
@@ -85,6 +88,8 @@ public class LevelManager {
 
 	public void generateVertices(TexturedModel texturedModel, float x, float y, float width, float height)
 	{
+		x = x*2 - 1; y = y*2 - 1;
+		width *= 2; height *= 2;
 		//counter clockwise vertices
 		float[] vertices = {
 				//Left top* and top right, resp.

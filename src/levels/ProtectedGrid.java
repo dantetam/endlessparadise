@@ -18,10 +18,10 @@ public class ProtectedGrid<T,E> {
 		return tiles[r][c];
 	}
 	
-	public void addEntity(E en, int row, int col)
+	/*public void addEntity(E en, int row, int col)
 	{
 		
-	}
+	}*/
 	
 	public void moveEntity(E en, int row, int col)
 	{
