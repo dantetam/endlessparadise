@@ -1,5 +1,5 @@
 package data;
 
-public class Equipment {
+public class Equipment extends Weapon {
 
 }

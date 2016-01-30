@@ -43,11 +43,11 @@ public class TextMaster {
 			for (int j = 0; j < menuSystem.menus.get(i).buttons.size(); j++)
 			{
 				TextBox text = menuSystem.menus.get(i).buttons.get(j);
-				if (menuSystem.menus.get(i).active() && text.textMeshVao <= 0)
+				if (menuSystem.menus.get(i).active && text.textMeshVao <= 0)
 				{
 					loadText(text);
 				}
-				else if (!menuSystem.menus.get(i).active() && text.textMeshVao > 0) 
+				else if (!menuSystem.menus.get(i).active && text.textMeshVao > 0) 
 				{
 					removeText(text);
 					text.textMeshVao = -1;
@@ -66,18 +66,6 @@ public class TextMaster {
 			}
 		}
 	}
-
-	//Lots of code duplication but this is the most simple way to avoid null pointer because of free floating textbox
-	/*public static void loadTextBox(TextBox text)
-	{
-		if ((text.active || text.menu.active()) && text.textMeshVao <= 0) //needs to be loaded and not already loaded
-			loadText(text);
-		else if ((!text.active && !text.menu.active()) && text.textMeshVao > 0) //needs to be unloaded and already loaded
-		{
-			removeText(text);
-			text.textMeshVao = -1;
-		}
-	}*/
 
 	public static void loadText(TextBox text) {
 		if (text.font == null)

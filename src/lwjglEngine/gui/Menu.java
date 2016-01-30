@@ -10,8 +10,7 @@ public class Menu {
 
 	public ArrayList<TextBox> buttons;
 	public String name;
-	private boolean active;
-	public boolean noShortcuts = false;
+	public boolean active;
 
 	public Menu(String name)
 	{
@@ -46,8 +45,8 @@ public class Menu {
 			{
 				System.out.println(b.display.get(0) + "; Pos: " + b.pixelPos + "; Size: " + b.pixelSize + "; Bounding Box: " + new Vector2f(b.pixelPos.x + b.pixelSize.x, b.pixelPos.y + b.pixelSize.y) + "; Mouse: " + mouseX + "," + mouseY);
 			}
-				if (b.within(mouseX, mouseY)) //mouseX > b.pos.x && mouseX < b.pos.x+b.size.x && mouseY > b.pos.y && mouseY < b.pos.y+b.size.y
-					return b.command;
+			if (b.within(mouseX, mouseY)) //mouseX > b.pos.x && mouseX < b.pos.x+b.size.x && mouseY > b.pos.y && mouseY < b.pos.y+b.size.y
+				return b.command;
 		}
 		return null;
 	}
@@ -62,10 +61,10 @@ public class Menu {
 		}
 		return null;
 	}
-	
+
 	public boolean equals(Menu other)
 	{
 		return name.equals(other.name);
 	}
-	
+
 }
