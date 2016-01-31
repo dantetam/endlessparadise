@@ -3,6 +3,8 @@ package system;
 import java.util.Map.Entry;
 
 import entity.Entity;
+import entity.MoveAnimation;
+import levels.Tile;
 import lwjglEngine.models.TexturedModel;
 import tests.MainGameLoop;
 
@@ -23,11 +25,35 @@ public class TurnSystem extends BaseSystem {
 		{
 			requestUpdate = false;
 			turn++;
-			for (Entity en: main.lm.models.keySet())
+			for (Entry<Entity,TexturedModel> entry: main.lm.models.entrySet())
 			{
+				Entity en = entry.getKey();
+				main.grid.attemptRandomMove(en);
+				if (en.previousLocation != null && en.location != null)
+				{
+					if (!en.previousLocation.equals(en.location))
+					{
+						MoveAnimation anim = new MoveAnimation(entry.getValue(),main.lm);
+						setMoveAnimationInDirection(anim,en.location,en.previousLocation);
+						main.lm.models.get(en).animations.add(anim);
+					}
+				}
 				en.previousLocation = en.location;
 			}
 		}
+	}
+	
+	public void setMoveAnimationInDirection(MoveAnimation anim, Tile a, Tile b)
+	{
+		int dr = a.row - b.row, dc = a.col - b.col;
+		if (dr == 0 && dc == 1)
+			anim.left();
+		else if (dr == 0 && dc == -1)
+			anim.right();
+		else if (dr == 1 && dc == 0)
+			anim.down();
+		else if (dr == -1 && dc == 0)
+			anim.up();
 	}
 
 }

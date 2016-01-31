@@ -1,7 +1,11 @@
 package levels;
 
+import entity.CombatEntity;
 import entity.Entity;
+import entity.Monster;
+import entity.Player;
 import lwjglEngine.models.LevelManager;
+import lwjglEngine.models.TexturedModel;
 import lwjglEngine.render.Loader;
 
 public class EntityGrid extends ProtectedGrid<Tile,Entity> {
@@ -45,6 +49,67 @@ public class EntityGrid extends ProtectedGrid<Tile,Entity> {
 		en.location.entities.remove(en);
 		en.location = null;
 		lm.removeEntity(en);
+	}
+
+	public void attackOrMove(Entity en, Tile t)
+	{
+		if (t.entities.isEmpty())
+			this.moveEntity(en, t.row, t.col);
+		else
+		{
+			for (Entity e: t.entities)
+			{
+				if (en instanceof Player && e instanceof Monster)
+				{
+					attack((CombatEntity)en, (CombatEntity)e);
+				}
+				else if (en instanceof Monster && e instanceof Player)
+				{
+					attack((CombatEntity)en, (CombatEntity)e);
+				}
+				else if (en instanceof Monster && e instanceof Monster)
+				{
+					if (Math.random() < 0.075)
+					{
+						attack((CombatEntity)en,(CombatEntity)e);
+					}
+				}
+				else
+				{
+					//No movement.
+				}
+			}
+		}
+		
+	}
+	
+	public void attack(CombatEntity atk, CombatEntity def)
+	{
+		TexturedModel atkModel = lm.models.get(atk), defModel = lm.models.get(def);
+		if (atkModel.animations.isEmpty())
+			atkModel.animations.add(new CombatAnimation().random());
+		if (defModel.animations.isEmpty())
+			defModel.animations.add(new CombatAnimation().random());
+		if (atk.hp == 0 || def.hp == 0) return;
+	}
+	
+	public void attemptRandomMove(Entity en)
+	{
+		if (en instanceof Player) return;
+		Tile t;
+		do
+		{
+			double r = Math.random();
+			if (r < 0.25)
+				t = getTile(en.location.row - 1, en.location.col);
+			else if (r < 0.5)
+				t = getTile(en.location.row + 1, en.location.col);
+			else if (r < 0.75)
+				t = getTile(en.location.row, en.location.col - 1);
+			else
+				t = getTile(en.location.row, en.location.col + 1);
+		} while (t == null);
+		attackOrMove(en, t);
 	}
 
 }

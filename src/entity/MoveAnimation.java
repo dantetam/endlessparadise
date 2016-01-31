@@ -11,30 +11,30 @@ public class MoveAnimation extends Animation {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void left()
+	public Animation left()
 	{
-		data(
+		return data(
 				-DisplayManager.width/(Player.sightXHalf*2 + 1)/20f,
 				0
 				);
 	}
-	public void right()
+	public Animation right()
 	{
-		data(
+		return data(
 				DisplayManager.width/(Player.sightXHalf*2 + 1)/20f,
 				0
 				);
 	}
-	public void up()
+	public Animation up()
 	{
-		data(
+		return data(
 				0,
 				-DisplayManager.height/(Player.sightYHalf*2 + 1)/20f
 				);
 	}
-	public void down()
+	public Animation down()
 	{
-		data(
+		return data(
 				0,
 				DisplayManager.height/(Player.sightYHalf*2 + 1)/20f
 				);
