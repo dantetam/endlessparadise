@@ -2,6 +2,8 @@ package system;
 
 import java.util.ArrayList;
 
+import org.lwjgl.glfw.GLFW;
+
 import tests.MainGameLoop;
 
 public class InputSystem extends BaseSystem {
@@ -26,6 +28,8 @@ public class InputSystem extends BaseSystem {
 		{
 			KeyPress press = presses.remove(0);
 			System.out.println("Key " + press.key);
+			if (press.key == GLFW.GLFW_KEY_SPACE)
+				main.turnSystem.requestUpdate = true;
 		}
 	}
 

@@ -14,6 +14,9 @@ public class MenuSystem extends BaseSystem {
 	
 	public MenuSystem(MainGameLoop game) {
 		super(game);
+		
+		Menu menu0 = new Menu("Inventory");
+		
 	}
 
 	public void tick() {

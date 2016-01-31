@@ -16,14 +16,16 @@ import lwjglEngine.models.TexturedModel;
 
 import lwjglEngine.render.*;
 import lwjglEngine.shaders.StaticShader;
-import system.BaseSystem;
-import system.InputSystem;
+import system.*;
 import lwjglEngine.textures.ModelTexture;
 
 public class MainGameLoop {
 
 	public ArrayList<BaseSystem> systems = new ArrayList<BaseSystem>();
 	public InputSystem inputSystem;
+	public MenuSystem menuSystem;
+	public AnimationSystem animationSystem;
+	public TurnSystem turnSystem;
 	public static final int rows = 100, cols = 100;
 	
 	public EntityGrid grid;
@@ -74,6 +76,7 @@ public class MainGameLoop {
 			for (int i = 0; i < systems.size(); i++)
 				systems.get(i).tick();
 			DisplayManager.updateDisplay();
+			animationSystem.frame++;
 		}
 
 		//Clean up data
