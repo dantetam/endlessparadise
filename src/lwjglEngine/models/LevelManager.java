@@ -14,6 +14,7 @@ import lwjglEngine.render.DiamondSquare;
 import lwjglEngine.render.DisplayManager;
 import lwjglEngine.render.Loader;
 import lwjglEngine.textures.ModelTexture;
+import tests.MainGameLoop;
 
 public class LevelManager {
 
@@ -70,6 +71,7 @@ public class LevelManager {
 	{
 		if (fileName == null)
 			fileName = loader.getRandomMonsterName();
+		en.name = fileName;
 		//System.out.println(fileName);
 		TexturedModel model = null;
 		if (en instanceof Monster)
@@ -133,7 +135,7 @@ public class LevelManager {
 	public void adjustTexture(TexturedModel model, int r, int c)
 	{
 		//System.out.println(camera.location);
-		if (camera.location == null) camera.location = grid.getTile(15,15);
+		if (camera.location == null) camera.location = grid.getTile(MainGameLoop.rows/2, MainGameLoop.cols/2);
 		int minX = camera.location.row - camera.sightXHalf, maxX = camera.location.row + camera.sightXHalf;
 		int minY = camera.location.col - camera.sightYHalf, maxY = camera.location.col + camera.sightYHalf;
 		if (r >= minX && r <= maxX && c >= minY && c <= maxY)

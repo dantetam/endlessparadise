@@ -14,14 +14,14 @@ public class MoveAnimation extends Animation {
 	public Animation left()
 	{
 		return data(
-				-DisplayManager.width/(Player.sightXHalf*2 + 1)/20f,
+				-1D/(Player.sightXHalf*2D + 1)/20f,
 				0
 				);
 	}
 	public Animation right()
 	{
 		return data(
-				DisplayManager.width/(Player.sightXHalf*2 + 1)/20f,
+				1D/(Player.sightXHalf*2D + 1)/20f,
 				0
 				);
 	}
@@ -29,14 +29,14 @@ public class MoveAnimation extends Animation {
 	{
 		return data(
 				0,
-				-DisplayManager.height/(Player.sightYHalf*2 + 1)/20f
+				-1D/(Player.sightYHalf*2D + 1)/20f
 				);
 	}
 	public Animation down()
 	{
 		return data(
 				0,
-				DisplayManager.height/(Player.sightYHalf*2 + 1)/20f
+				1D/(Player.sightYHalf*2D + 1)/20f
 				);
 	}
 	

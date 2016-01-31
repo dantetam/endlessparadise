@@ -28,12 +28,13 @@ public class MainGameLoop {
 	public MenuSystem menuSystem;
 	public AnimationSystem animationSystem;
 	public TurnSystem turnSystem;
-	public static final int rows = 30, cols = 30;
+	public static final int rows = 14, cols = 14;
 
 	public EntityGrid grid;
 
 	public Loader loader;
 	public LevelManager lm;
+	public Player player;
 
 	public static void main(String[] args)
 	{
@@ -67,7 +68,7 @@ public class MainGameLoop {
 		//NullPointerExceptions arise when data is declared and asked for in the incorrect order
 		lm = null;
 		grid = new EntityGrid(loader,lm,rows,cols);
-		Player player = new Player();
+		player = new Player();
 		player.location = grid.getTile(rows/2,cols/2);
 		lm = new LevelManager(grid,loader,player);
 		grid.lm = lm;

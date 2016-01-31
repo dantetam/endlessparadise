@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.glfw.GLFW;
 
+import levels.Tile;
 import tests.MainGameLoop;
 
 public class InputSystem extends BaseSystem {
@@ -28,26 +29,27 @@ public class InputSystem extends BaseSystem {
 		{
 			KeyPress press = presses.remove(0);
 			System.out.println("Key " + press.key);
+			Tile t = main.player.location;
 			if (press.key == GLFW.GLFW_KEY_SPACE)
 				main.turnSystem.requestUpdate = true;
 			else if (press.key == GLFW.GLFW_KEY_W)
 			{
-				
+				main.grid.attackOrMove(main.player,main.grid.getTile(t.row-1,t.col));
 				main.turnSystem.requestUpdate = true;
 			}
 			else if (press.key == GLFW.GLFW_KEY_S)
 			{
-				
+				main.grid.attackOrMove(main.player,main.grid.getTile(t.row+1,t.col));				
 				main.turnSystem.requestUpdate = true;
 			}
 			else if (press.key == GLFW.GLFW_KEY_A)
 			{
-				
+				main.grid.attackOrMove(main.player,main.grid.getTile(t.row,t.col-1));
 				main.turnSystem.requestUpdate = true;
 			}
 			else if (press.key == GLFW.GLFW_KEY_D)
 			{
-				
+				main.grid.attackOrMove(main.player,main.grid.getTile(t.row,t.col+1));
 				main.turnSystem.requestUpdate = true;
 			}
 		}

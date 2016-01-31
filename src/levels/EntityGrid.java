@@ -1,5 +1,6 @@
 package levels;
 
+import entity.CombatAnimation;
 import entity.CombatEntity;
 import entity.Entity;
 import entity.Monster;
@@ -87,9 +88,9 @@ public class EntityGrid extends ProtectedGrid<Tile,Entity> {
 	{
 		TexturedModel atkModel = lm.models.get(atk), defModel = lm.models.get(def);
 		if (atkModel.animations.isEmpty())
-			atkModel.animations.add(new CombatAnimation().random());
+			atkModel.animations.add(new CombatAnimation(atkModel,lm,0,20).random());
 		if (defModel.animations.isEmpty())
-			defModel.animations.add(new CombatAnimation().random());
+			defModel.animations.add(new CombatAnimation(defModel,lm,0,20).random());
 		if (atk.hp == 0 || def.hp == 0) return;
 	}
 	

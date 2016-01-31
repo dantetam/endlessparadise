@@ -27,6 +27,10 @@ public class AnimationSystem extends BaseSystem {
 			{
 				Animation anim = model.animations.get(0);
 				anim.behavior();
+				if (anim.data.size() > 0)
+					System.out.println("An anim" + anim.data.get(0));
+				else
+					System.out.println("No data in anim");
 				anim.frame++;
 				if (anim.frame >= anim.framesTotal)
 				{
