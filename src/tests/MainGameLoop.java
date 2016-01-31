@@ -6,9 +6,11 @@ import org.lwjgl.glfw.GLFW;
 
 import data.EntityData;
 import data.Names;
+import entity.Building;
 import entity.Monster;
 import entity.Player;
 import levels.EntityGrid;
+import levels.Tile;
 import lwjglEngine.fontRendering.TextMaster;
 import lwjglEngine.models.LevelManager;
 import lwjglEngine.models.RawModel;
@@ -26,12 +28,12 @@ public class MainGameLoop {
 	public MenuSystem menuSystem;
 	public AnimationSystem animationSystem;
 	public TurnSystem turnSystem;
-	public static final int rows = 100, cols = 100;
-	
+	public static final int rows = 30, cols = 30;
+
 	public EntityGrid grid;
-	
+
 	public Loader loader;
-	
+
 	public static void main(String[] args)
 	{
 		new MainGameLoop();
@@ -42,24 +44,24 @@ public class MainGameLoop {
 		GLFW.glfwInit();
 		EntityData.init();
 		Names.init();
-		
+
 		inputSystem = new InputSystem(this);
 		turnSystem = new TurnSystem(this);
 		animationSystem = new AnimationSystem(this);
 		menuSystem = new MenuSystem(this);
-		
+
 		systems.add(inputSystem);
 		systems.add(turnSystem);
 		systems.add(animationSystem);
 		systems.add(menuSystem);
-		
+
 		DisplayManager.createDisplay(this);
 		loader = new Loader();
 		loader.init();
 		TextMaster.init(loader);
 		Renderer renderer = new Renderer();
 		StaticShader shader = new StaticShader();
-		
+
 		//Just do some silly stuff to make sure all the data is initialized.
 		//NullPointerExceptions arise when data is declared and asked for in the incorrect order
 		LevelManager lm = null;
@@ -69,9 +71,9 @@ public class MainGameLoop {
 		lm = new LevelManager(grid,loader,player);
 		grid.lm = lm;
 		grid.moveEntity(player,rows/2,cols/2);
-		
+
 		initWorld();
-		
+
 		//Keep updating the display until the user exits
 		while (!DisplayManager.requestClose())
 		{
@@ -91,17 +93,88 @@ public class MainGameLoop {
 		loader.cleanData();
 		DisplayManager.closeDisplay();
 	}
-	
+
 	public void initWorld()
 	{
+		boolean[][] buildings = makeBoxedDungeons(rows,cols);
+		for (int r = 0; r < buildings.length; r++)
+		{
+			for (int c = 0; c < buildings[0].length; c++)
+			{
+				if (buildings[r][c])
+				{
+					Building building = new Building();
+					building.pictureFile = loader.getRandomTileName();
+					grid.moveEntity(building,r,c);
+				}
+				/*if (buildings[r][c])
+					System.out.print("X");
+				else
+					System.out.print(" ");*/
+			}
+			System.out.println();
+		}
 		for (int i = 0; i < rows*cols/6; i++)
 		{
 			Monster monster = new Monster();
 			//monster.pictureFile = "bluePlasma";
 			monster.pictureFile = loader.getRandomMonsterName();
-			grid.moveEntity(monster,(int)(Math.random()*grid.rows),(int)(Math.random()*grid.cols));
+			Tile spawn = null;
+			do
+			{
+				spawn = grid.getTile((int)(Math.random()*grid.rows),(int)(Math.random()*grid.cols));
+			} while (spawn.containsBuilding());
+
+			grid.moveEntity(monster,spawn.row,spawn.col);
 		}
-		
+	}
+
+	public boolean[][] makeBoxedDungeons(int rows, int cols)
+	{
+		boolean[][] data = fillAll(rows,cols);
+		for (int i = 0; i < (int)(rows/7); i++)
+		{
+			clearRandomPatches(data,1,rows/15 + (int)(Math.random()*(rows/5)-rows/10),rows/15 + (int)(Math.random()*(rows/5)-rows/10));
+		}
+		for (int i = 0; i < 10; i++)
+		{
+			//clearPatch(data,0,0,(int)(Math.random()*rows),cols);
+		}
+		//data = clearRandomPatches(data,1,rows/15 + (int)(Math.random()*(rows/5)-rows/10),rows/15 + (int)(Math.random()*(rows/5)-rows/10));
+		data[rows/2][cols/2] = false;
+		return data;
+	}
+
+	public void clearRandomPatches(boolean[][] data, int times, int w, int h) {
+		//HashMap<Integer,Integer> usedRows = new HashMap<Integer,Integer>();\
+		int r = 0, c = 0;
+		for (int i = 0; i < times; i++)
+		{
+			r = (int)(Math.random()*rows);
+			c = (int)(Math.random()*cols);
+			clearPatch(data,r,c,r+w,c+h);
+		}
+	}
+
+	public boolean[][] fillAll(int rows, int cols)
+	{
+		boolean[][] temp = new boolean[rows][cols];
+		for (int r = 0; r < rows; r++)
+			for (int c = 0; c < cols; c++)
+				temp[r][c] = false;
+		return temp;
+	}
+
+	public void clearPatch(boolean[][] data, int r1, int c1, int r2, int c2)
+	{
+		for (int r = 0; r < data.length; r++)
+		{
+			for (int c = 0; c < data[0].length; c++)
+			{
+				if (r >= r1 && r <= r2 && c >= c1 && c <= c2)
+					data[r][c] = true;
+			}
+		}
 	}
 
 }

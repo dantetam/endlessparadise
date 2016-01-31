@@ -2,11 +2,15 @@ package lwjglEngine.models;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
+import entity.Building;
 import entity.Entity;
+import entity.Monster;
 import entity.Player;
 import levels.ProtectedGrid;
 import levels.Tile;
+import lwjglEngine.render.DiamondSquare;
 import lwjglEngine.render.DisplayManager;
 import lwjglEngine.render.Loader;
 import lwjglEngine.textures.ModelTexture;
@@ -14,15 +18,51 @@ import lwjglEngine.textures.ModelTexture;
 public class LevelManager {
 
 	public HashMap<Entity,TexturedModel> models = new HashMap<Entity,TexturedModel>();
+	public HashMap<Tile,TexturedModel> tiles = new HashMap<Tile,TexturedModel>();
 	public ProtectedGrid<Tile,Entity> grid;
 	public Loader loader;
 	public Player camera;
 
-	public LevelManager(ProtectedGrid<Tile,Entity> g, Loader l, Player c)
+	public LevelManager(ProtectedGrid<Tile,Entity> g, Loader l, Player cam)
 	{
 		grid = g;
 		loader = l;
-		camera = c;
+		camera = cam;
+		
+		int width = 64;
+		double[][] temp = DiamondSquare.makeTable(50,50,50,50,width+1);
+		DiamondSquare ds = new DiamondSquare(temp);
+		//ds.diamond(0, 0, 4);
+		ds.dS(0, 0, width, 100, 0.5, false, true);
+		
+		for (int r = 0; r < grid.rows; r++)
+		{
+			for (int c = 0; c < grid.cols; c++)
+			{
+				Tile t = grid.getTile(r,c);
+				int numTiles = loader.tileNames.size();
+				TexturedModel model = generateTexture(loader.tileNames.get((int)(ds.t[r][c]*numTiles/100d)));
+				tiles.put(t, model);
+				adjustTexture(model, r, c);
+			}
+		}
+	}
+	
+	public void update()
+	{
+		for (Entry<Tile, TexturedModel> entry: tiles.entrySet())
+		{
+			Tile t = entry.getKey();
+			TexturedModel model = entry.getValue();
+			adjustTexture(model, t.row, t.col);
+		}
+		for (Entry<Entity, TexturedModel> entry: models.entrySet())
+		{
+			Entity en = entry.getKey();
+			if (en.animations.size() > 0) continue;
+			TexturedModel model = entry.getValue();
+			adjustTexture(model, en.location.row, en.location.col);
+		}
 	}
 
 	public void addEntity(Entity en, String fileName, int r, int c)
@@ -30,7 +70,13 @@ public class LevelManager {
 		if (fileName == null)
 			fileName = loader.getRandomMonsterName();
 		//System.out.println(fileName);
-		TexturedModel model = generateTexture("res/monsters/"+fileName+".png");
+		TexturedModel model = null;
+		if (en instanceof Monster)
+			model = generateTexture("res/monsters/"+fileName+".png");
+		else if (en instanceof Building)
+			model = generateTexture("res/tiles/"+fileName+".png");
+		else
+			model = generateTexture("res/monsters/"+fileName+".png");
 		//System.out.println("model -> " + model);
 		models.put(en, model);
 		//System.out.println(model.getTexture().textureID);
@@ -73,7 +119,12 @@ public class LevelManager {
 		float[] textureCoords = {0,0,0,1,1,1,1,0};
 
 		RawModel model = loader.loadToVAO(vertices, textureCoords, indices);
-		ModelTexture texture = new ModelTexture(loader.loadTexture(textureName));
+		ModelTexture texture;
+		if (textureName.contains("/tile"))
+			texture = new ModelTexture(loader.loadTexture(textureName));
+			//texture = new ModelTexture(loader.loadTexture(textureName,0,0,12,12));
+		else
+			texture = new ModelTexture(loader.loadTexture(textureName));
 		TexturedModel texturedModel = new TexturedModel(model, texture);
 		return texturedModel;
 	}
@@ -81,7 +132,7 @@ public class LevelManager {
 	public void adjustTexture(TexturedModel model, int r, int c)
 	{
 		//System.out.println(camera.location);
-		if (camera.location == null) camera.location = grid.getTile(50,50);
+		if (camera.location == null) camera.location = grid.getTile(15,15);
 		int minX = camera.location.row - camera.sightXHalf, maxX = camera.location.row + camera.sightXHalf;
 		int minY = camera.location.col - camera.sightYHalf, maxY = camera.location.col + camera.sightYHalf;
 		if (r >= minX && r <= maxX && c >= minY && c <= maxY)

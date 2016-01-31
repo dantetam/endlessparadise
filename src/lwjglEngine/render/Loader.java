@@ -29,6 +29,7 @@ public class Loader {
 	private ArrayList<String> respTextureNames = new ArrayList<String>();
 
 	private ArrayList<String> monsterNames = new ArrayList<String>();
+	public ArrayList<String> tileNames = new ArrayList<String>();
 
 	private boolean init = false;
 	public void init()
@@ -36,7 +37,6 @@ public class Loader {
 		if (!init) init = true; else return;
 		File folder = new File("./res/monsters/");
 		File[] listOfFiles = folder.listFiles();
-
 		for (int i = 0; i < listOfFiles.length; i++) {
 			if (listOfFiles[i].isFile()) {
 				//System.out.println("File " + listOfFiles[i].getName());
@@ -44,7 +44,21 @@ public class Loader {
 				if (!name.contains("Thumbs"))
 				{
 					monsterNames.add(name.substring(0,name.length()-4));
-					loadTexture("res/bluePlasma.png");
+					//loadTexture("res/bluePlasma.png");
+				}
+			}
+		}
+		
+		folder = new File("./res/tiles/");
+		listOfFiles = folder.listFiles();
+		for (int i = 0; i < listOfFiles.length; i++) {
+			if (listOfFiles[i].isFile()) {
+				//System.out.println("File " + listOfFiles[i].getName());
+				String name = listOfFiles[i].getName();
+				if (!name.contains("Thumbs"))
+				{
+					tileNames.add(name.substring(0,name.length()-4));
+					//loadTexture("res/bluePlasma.png");
 				}
 			}
 		}
@@ -91,16 +105,9 @@ public class Loader {
 		textures.add(textureID);
 		return textureID;
 	}*/
-
-	public int loadTexture(String fileName)
+	
+	private BufferedImage readImage(String fileName)
 	{
-		//if (fileName == null) return -1;
-		for (int i = 0; i < respTextureNames.size(); i++) //Check to see if we already loaded the texture
-		{
-			if (respTextureNames.get(i).equals(fileName))
-				return textures.get(i);
-		}
-
 		BufferedImage image = null;
 		try {
 			File file = new File(fileName);
@@ -117,55 +124,47 @@ public class Loader {
 			System.out.println("Can't find file -> " + fileName);
 			e.printStackTrace();
 		}
+		return image;
+	}
+
+	public int loadTexture(String fileName)
+	{
+		BufferedImage img = readImage(fileName);
+		return loadTexture(fileName,0,0,img.getWidth(),img.getHeight());
+	}
+	
+	public int loadTexture(String fileName, int r1, int c1, int r2, int c2)
+	{
+		//if (fileName == null) return -1;
+		for (int i = 0; i < respTextureNames.size(); i++) //Check to see if we already loaded the texture
+		{
+			if (respTextureNames.get(i).equals(fileName))
+				return textures.get(i);
+		}
+
+		BufferedImage image = readImage(fileName);
 
 		final int BYTES_PER_PIXEL = 4;
 
-		int[] temp = new int[image.getWidth() * image.getHeight()];
-		image.getRGB(0, 0, image.getWidth(), image.getHeight(), temp, 0, image.getWidth());
+		int width = r2 - r1; int height = c2 - c1;
+		
+		int[] temp = new int[width * height];
+		image.getRGB(0, 0, width, height, temp, 0, width);
 
-		int[] pixels = new int[image.getWidth() * image.getHeight()];
+		int[] pixels = new int[width * height];
 		for (int i = 0; i < pixels.length; i++)
 			pixels[i] = temp[pixels.length - 1 - i];
 		
-		ByteBuffer buffer = BufferUtils.createByteBuffer(image.getWidth() * image.getHeight() * BYTES_PER_PIXEL); //4 for RGBA, 3 for RGB
-		for (int y = 0; y < image.getHeight(); y++)
-			for (int x = 0; x < image.getWidth(); x++)
+		ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * BYTES_PER_PIXEL); //4 for RGBA, 3 for RGB
+		for (int y = c1; y < c2; y++)
+			for (int x = r1; x < r2; x++)
 			{
-				int i = y;
-				int pixel;
-				/*if (fileName.contains("/monster"))
-				{
-					i = image.getHeight() - y;
-					pixel = pixels[(i-y) * image.getWidth() - x];
-				}
-				else*/
-					pixel = pixels[y * image.getWidth() + x];
+				//int i = y;
+				int pixel = pixels[y * width + x];
 				//byte a = (byte)((pixel >> 24) & 0xFF);
 				byte r = (byte)((pixel >> 16) & 0xFF);
 				byte g = (byte)((pixel >> 8) & 0xFF);
 				byte b = (byte)(pixel & 0xFF);
-				//if (Math.random() < 0.001)
-				//System.out.println(a);
-				/*if (r > 0xEE && g == 0x00 && b > 0xEE) //If bright purple/pink, industry standard for sprites
-				{
-					r = (byte)0xff; g = 0; b = 0;
-					a = (byte)0xfe;
-				}
-				else if (r == -1 && g == 0 && b == -1)
-				{
-					r = (byte)0xff; g = 0; b = 0;
-					a = (byte)0xfe;
-				}*/
-				/*if (Math.random() < 0.001)
-				{
-					System.out.println((byte)r + " " + (byte)g + " " + (byte)b + " " + (byte)a);
-					System.out.println((r == -1 && g == 0 && b == -1));
-				}*/
-				/*if (r > 0xEE && g < 0x0f && b > 0xEE) //If bright purple/pink, industry standard for sprites
-				{
-					r = (byte)0xff; g = 0; b = 0;
-					a = (byte)0;
-				}*/
 				byte a = (byte)0xff;
 				if (r == -1 && g == 0 && b == -1)
 					a = (byte)0x00;
@@ -275,6 +274,14 @@ public class Loader {
 		if (monsterNames.size() == 0) 
 			return null;
 		return monsterNames.get((int)(Math.random()*monsterNames.size()));
+	}
+	
+	public String getRandomTileName() 
+	{
+		init();
+		if (tileNames.size() == 0) 
+			return null;
+		return tileNames.get((int)(Math.random()*tileNames.size()));
 	}
 
 }

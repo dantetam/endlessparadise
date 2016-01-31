@@ -11,7 +11,10 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
+import entity.Building;
 import entity.Entity;
+import entity.Monster;
+import entity.Player;
 
 public class Renderer {
 
@@ -23,8 +26,17 @@ public class Renderer {
 	
 	public void render(LevelManager lm)
 	{
+		lm.update();
 		for (Entry<Entity,TexturedModel> entry: lm.models.entrySet())
 		{
+			if (entry.getKey() instanceof Monster || entry.getKey() instanceof Player) continue;
+			TexturedModel model = entry.getValue();
+			if (model.active)
+				render(model);
+		}
+		for (Entry<Entity,TexturedModel> entry: lm.models.entrySet())
+		{
+			if (entry.getKey() instanceof Building) continue;
 			TexturedModel model = entry.getValue();
 			if (model.active)
 				render(model);
