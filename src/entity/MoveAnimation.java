@@ -1,12 +1,13 @@
 package entity;
 
+import lwjglEngine.models.LevelManager;
 import lwjglEngine.models.TexturedModel;
 import lwjglEngine.render.DisplayManager;
 
 public class MoveAnimation extends Animation {
 
-	public MoveAnimation(TexturedModel model) {
-		super(model, 0, 20);
+	public MoveAnimation(TexturedModel model, LevelManager lm) {
+		super(model, lm, 0, 20);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -45,8 +46,8 @@ public class MoveAnimation extends Animation {
 	public void behavior() {
 		// TODO Auto-generated method stub
 		//if (data.size() == 0)
-		model.	
-		
+		//Why no auto unbox?
+		lm.adjustTextureManual(model, model.x + (float)(double)data.get(0), model.y + (float)(double)data.get(1), model.w, model.h);
 	}
 	
 	

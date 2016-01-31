@@ -28,27 +28,27 @@ public class LevelManager {
 		grid = g;
 		loader = l;
 		camera = cam;
-		
+
 		int width = 64;
 		double[][] temp = DiamondSquare.makeTable(50,50,50,50,width+1);
 		DiamondSquare ds = new DiamondSquare(temp);
 		ds.seed(870691);
 		//ds.diamond(0, 0, 4);
 		ds.dS(0, 0, width, 100, 0.5, false, true);
-		
+
 		for (int r = 0; r < grid.rows; r++)
 		{
 			for (int c = 0; c < grid.cols; c++)
 			{
 				Tile t = grid.getTile(r,c);
-				int numTiles = loader.tileNames.size();
-				TexturedModel model = generateTexture(loader.tileNames.get((int)(ds.t[r][c]*numTiles/100d)));
+				double numTiles = loader.tileNames.size();
+				TexturedModel model = generateTexture("./res/tiles/"+loader.tileNames.get(Math.min((int)(numTiles-1),(int)(Math.min(1,ds.t[r][c]/150D)*numTiles)))+".png");
 				tiles.put(t, model);
 				adjustTexture(model, r, c);
 			}
 		}
 	}
-	
+
 	public void update()
 	{
 		for (Entry<Tile, TexturedModel> entry: tiles.entrySet())
@@ -123,7 +123,7 @@ public class LevelManager {
 		ModelTexture texture;
 		if (textureName.contains("/tile"))
 			texture = new ModelTexture(loader.loadTexture(textureName));
-			//texture = new ModelTexture(loader.loadTexture(textureName,0,0,12,12));
+		//texture = new ModelTexture(loader.loadTexture(textureName,0,0,12,12));
 		else
 			texture = new ModelTexture(loader.loadTexture(textureName));
 		TexturedModel texturedModel = new TexturedModel(model, texture);
@@ -149,8 +149,27 @@ public class LevelManager {
 		}
 	}
 
+	public void adjustTextureManual(TexturedModel model, float x, float y, float width, float height)
+	{
+		//x = x*2 - 1; y = y*2 - 1;
+		//width *= 2; height *= 2;
+
+		model.set(x,y,width,height);
+		if (x >= -1 && y >= -1 && x <= 1 && y <= 1)
+		{
+			model.active = true;
+			generateVertices(model, x, y, width, height);
+		}
+		else
+		{
+			model.active = false;
+		}
+	}
+
 	public void generateVertices(TexturedModel texturedModel, float x, float y, float width, float height)
 	{
+		texturedModel.set(x,y,width,height);
+
 		x = x*2 - 1; y = y*2 - 1;
 		width *= 2; height *= 2;
 		//counter clockwise vertices
@@ -165,7 +184,7 @@ public class LevelManager {
 		int[] indices = {0,1,3,3,1,2};
 		//respective u,v vertex of texture to map to
 		float[] textureCoords = {0,0,0,1,1,1,1,0};
-		
+
 		RawModel model = loader.loadToVAO(vertices, textureCoords, indices);
 		texturedModel.rawModel = model;
 		//return texturedModel;
