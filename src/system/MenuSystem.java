@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import lwjglEngine.fontRendering.TextMaster;
 import lwjglEngine.gui.Menu;
 import lwjglEngine.gui.TextBox;
+import system.InputSystem.Click;
+import system.InputSystem.KeyPress;
 import tests.MainGameLoop;
 
 public class MenuSystem extends BaseSystem {
@@ -20,7 +22,10 @@ public class MenuSystem extends BaseSystem {
 	}
 
 	public void tick() {
-		TextMaster.render();
+		//TextMaster.render();
 	}
+	
+	public ArrayList<Click> clicks = new ArrayList<Click>();
+	public ArrayList<KeyPress> presses = new ArrayList<KeyPress>();
 
 }

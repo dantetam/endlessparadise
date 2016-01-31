@@ -8,7 +8,17 @@ public class Names {
 	public static String[] nouns;
 	public static String[] prepositions;
 	public static ArrayList<ArrayList<String>> structures;
+	public static ArrayList<ArrayList<String>> bonusNameStructures;
 
+	public static void main(String[] args)
+	{
+		init();
+		for (int i = 0; i < 100; i++)
+			System.out.println(randomWeaponName());
+		for (int i = 0; i < 100; i++)
+			System.out.println(randomBonusName());
+	}
+	
 	public static boolean init = false;
 	public static void init()
 	{
@@ -24,16 +34,23 @@ public class Names {
 			structures.add(list("n","p","a","n"));
 			structures.add(list("n","p","a"));
 			structures.add(list("a","n","p","a"));
+			
+			bonusNameStructures = new ArrayList<ArrayList<String>>();
+			bonusNameStructures.add(list("a"));
+			bonusNameStructures.add(list("a","n"));
+			bonusNameStructures.add(list("a","n","p","a"));
+			bonusNameStructures.add(list("a","p","a"));
+			bonusNameStructures.add(list("n"));
 		}
 		//adjectives = new String[]{"a","b","c"};
-		adjectives = readAdjectives();
-		nouns = new String[]{"x","y","z"};
-		prepositions = new String[]{"of","at","in","from"};
+		adjectives = readAdjectives("./res/traits.txt");
+		nouns = readAdjectives("./res/nouns.txt");
+		prepositions = new String[]{"of","in","from"};
 	}
 
-	private static String[] readAdjectives()
+	private static String[] readAdjectives(String fileName)
 	{
-		In in = new In("./res/traits.txt");
+		In in = new In(fileName);
 		int line = 0;
 		String[] temp = null;
 		while (!in.isEmpty()) 
@@ -49,10 +66,13 @@ public class Names {
 		return temp;
 	}
 
-	public static String randomName()
+	public static String randomWeaponName() {return randomName(structures);}
+	public static String randomBonusName() {return randomName(bonusNameStructures);}
+	
+	private static String randomName(ArrayList<ArrayList<String>> structuresChoice)
 	{
 		String temp = "";
-		ArrayList<String> structure = structures.get((int)(Math.random()*structures.size()));
+		ArrayList<String> structure = structuresChoice.get((int)(Math.random()*structuresChoice.size()));
 		for (String s: structure)
 		{
 			String[] candidates;

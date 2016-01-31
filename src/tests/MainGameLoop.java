@@ -44,8 +44,15 @@ public class MainGameLoop {
 		Names.init();
 		
 		inputSystem = new InputSystem(this);
+		turnSystem = new TurnSystem(this);
+		animationSystem = new AnimationSystem(this);
+		menuSystem = new MenuSystem(this);
+		
 		systems.add(inputSystem);
-
+		systems.add(turnSystem);
+		systems.add(animationSystem);
+		systems.add(menuSystem);
+		
 		DisplayManager.createDisplay(this);
 		loader = new Loader();
 		loader.init();
@@ -68,15 +75,15 @@ public class MainGameLoop {
 		//Keep updating the display until the user exits
 		while (!DisplayManager.requestClose())
 		{
+			for (int i = 0; i < systems.size(); i++)
+				systems.get(i).tick();
 			renderer.prepare();
 			shader.start(); //Enable shader
 			renderer.render(lm);
+			TextMaster.render();
 			//renderer.render(texturedModel);
 			shader.stop(); //Disable shader when the draw is done
-			for (int i = 0; i < systems.size(); i++)
-				systems.get(i).tick();
 			DisplayManager.updateDisplay();
-			animationSystem.frame++;
 		}
 
 		//Clean up data
@@ -94,6 +101,7 @@ public class MainGameLoop {
 			monster.pictureFile = loader.getRandomMonsterName();
 			grid.moveEntity(monster,(int)(Math.random()*grid.rows),(int)(Math.random()*grid.cols));
 		}
+		
 	}
 
 }

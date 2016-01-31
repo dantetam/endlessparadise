@@ -26,9 +26,9 @@ public class Trait {
 			Bonus[] bonuses = new Bonus[(int)(Math.random()*4)];
 			for (int i = 0; i < bonuses.length; i++)
 			{
-				Bonus b = new Bonus();
-				b.setBonuses((int)(Math.random()*5),(int)(Math.random()*5),(int)(Math.random()*5),1+Math.random(),1+Math.random(),1+Math.random());
-				b.setSkillBonuses((int)(Math.random()*5),(int)(Math.random()*5),(int)(Math.random()*5),(int)(Math.random()*5),(int)(Math.random()*5),(int)(Math.random()*5));
+				Bonus b = Bonus.getRandom();
+				//b.setBonuses((int)(Math.random()*5),(int)(Math.random()*5),(int)(Math.random()*5),1+Math.random(),1+Math.random(),1+Math.random());
+				//b.setSkillBonuses((int)(Math.random()*5),(int)(Math.random()*5),(int)(Math.random()*5),(int)(Math.random()*5),(int)(Math.random()*5),(int)(Math.random()*5));
 				bonuses[i] = b;
 			}
 			traitBonuses.put(trait, bonuses);

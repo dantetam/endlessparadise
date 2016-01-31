@@ -13,8 +13,8 @@ public class AnimationSystem extends BaseSystem {
 
 	@Override
 	public void tick() {
-		// TODO Auto-generated method stub
-
+		frame++;
+		
 	}
 
 }
