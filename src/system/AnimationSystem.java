@@ -10,7 +10,7 @@ import tests.MainGameLoop;
 public class AnimationSystem extends BaseSystem {
 
 	public int frame = 0;
-	
+
 	public AnimationSystem(MainGameLoop game) {
 		super(game);
 		// TODO Auto-generated constructor stub
@@ -27,10 +27,11 @@ public class AnimationSystem extends BaseSystem {
 			{
 				Animation anim = model.animations.get(0);
 				anim.behavior();
-				if (anim.data.size() > 0)
+				/*if (anim.data.size() > 0)
 					System.out.println("An anim" + anim.data.get(0));
 				else
 					System.out.println("No data in anim");
+				 */				
 				anim.frame++;
 				if (anim.frame >= anim.framesTotal)
 				{

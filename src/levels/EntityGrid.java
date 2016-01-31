@@ -55,6 +55,7 @@ public class EntityGrid extends ProtectedGrid<Tile,Entity> {
 
 	public void attackOrMove(Entity en, Tile t)
 	{
+		if (t == null) return;
 		if (t.entities.isEmpty())
 			this.moveEntity(en, t.row, t.col);
 		else

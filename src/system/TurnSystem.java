@@ -33,9 +33,14 @@ public class TurnSystem extends BaseSystem {
 				{
 					if (!en.previousLocation.equals(en.location))
 					{
+						TexturedModel model = main.lm.models.get(en);
 						MoveAnimation anim = new MoveAnimation(entry.getValue(),main.lm,-20,20);
-						setMoveAnimationInDirection(anim,en.location,en.previousLocation);
-						main.lm.models.get(en).animations.add(anim);
+						int[] diff = setMoveAnimationInDirection(anim,en.location,en.previousLocation);
+						anim.data(anim.data.get(0),anim.data.get(1),model.x - model.w*diff[0],model.y - model.h*diff[1]);
+						for (double d: anim.data)
+							System.out.print(" " + d);
+						System.out.println();
+						model.animations.add(anim);
 					}
 				}
 				//en.previousLocation = en.location;
@@ -43,17 +48,18 @@ public class TurnSystem extends BaseSystem {
 		}
 	}
 	
-	public static void setMoveAnimationInDirection(MoveAnimation anim, Tile a, Tile b)
+	public static int[] setMoveAnimationInDirection(MoveAnimation anim, Tile a, Tile b)
 	{
 		int dr = a.row - b.row, dc = a.col - b.col;
 		if (dr == 0 && dc == 1)
-			anim.left();
-		else if (dr == 0 && dc == -1)
-			anim.right();
-		else if (dr == 1 && dc == 0)
 			anim.down();
-		else if (dr == -1 && dc == 0)
+		else if (dr == 0 && dc == -1)
 			anim.up();
+		else if (dr == 1 && dc == 0)
+			anim.right();
+		else if (dr == -1 && dc == 0)
+			anim.left();
+		return new int[]{dr,dc};
 	}
 
 }

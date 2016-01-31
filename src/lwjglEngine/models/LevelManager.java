@@ -151,7 +151,7 @@ public class LevelManager {
 			float height = 1f/(float)(1 + 2*camera.sightYHalf);
 			generateVertices(model, (float)((r-minX)*width), (float)((c-minY)*height), width, height);
 		}
-		else
+		else 
 		{
 			model.active = false;
 		}

@@ -15,32 +15,32 @@ public class MoveAnimation extends Animation {
 	{
 		return data(
 				-1D/(Player.sightXHalf*2D + 1)/20f,
-				0
+				0, -9999, -9999
 				);
 	}
 	public Animation right()
 	{
 		return data(
 				1D/(Player.sightXHalf*2D + 1)/20f,
-				0
+				0, -9999, -9999
 				);
 	}
 	public Animation up()
 	{
 		return data(
 				0,
-				-1D/(Player.sightYHalf*2D + 1)/20f
+				-1D/(Player.sightYHalf*2D + 1)/20f, -9999, -9999
 				);
 	}
 	public Animation down()
 	{
 		return data(
 				0,
-				1D/(Player.sightYHalf*2D + 1)/20f
+				1D/(Player.sightYHalf*2D + 1)/20f, -9999, -9999
 				);
 	}
 	
-	//xSpeed, ySpeed
+	//xSpeed, ySpeed, origX, origY
 	
 	@Override
 	public void behavior() {
@@ -48,7 +48,7 @@ public class MoveAnimation extends Animation {
 		//if (data.size() == 0)
 		//Why no auto unbox?
 		if (frame < 0) return;
-		lm.adjustTextureManual(model, model.x + (float)(double)data.get(0), model.y + (float)(double)data.get(1), model.w, model.h);
+		lm.adjustTextureManual(model, (float)(double)(data.get(2)+data.get(0)*frame), (float)(double)(data.get(3)+data.get(1)*frame), model.w, model.h);
 	}
 	
 	

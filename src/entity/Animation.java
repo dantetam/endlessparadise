@@ -22,8 +22,12 @@ public abstract class Animation {
 	
 	public Animation data(double... theData)
 	{
-		for (double d: theData)
-			data.add(d);
+		if (data.size() != theData.length)
+			for (int i = 0; i < theData.length; i++)
+				data.add(0D);
+		for (int i = 0; i < theData.length; i++)
+			if (theData[i] != -9999)
+				data.set(i, theData[i]);
 		return this;
 	}
 	
