@@ -28,6 +28,10 @@ public class AnimationSystem extends BaseSystem {
 				Animation anim = model.animations.get(0);
 				anim.behavior();
 				anim.frame++;
+				if (anim.frame >= anim.framesTotal)
+				{
+					model.animations.remove(0);
+				}
 			}
 		}
 	}

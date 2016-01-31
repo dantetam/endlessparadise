@@ -32,6 +32,7 @@ public class LevelManager {
 		int width = 64;
 		double[][] temp = DiamondSquare.makeTable(50,50,50,50,width+1);
 		DiamondSquare ds = new DiamondSquare(temp);
+		ds.seed(870691);
 		//ds.diamond(0, 0, 4);
 		ds.dS(0, 0, width, 100, 0.5, false, true);
 		

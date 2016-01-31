@@ -1,5 +1,9 @@
 package system;
 
+import java.util.Map.Entry;
+
+import entity.Entity;
+import lwjglEngine.models.TexturedModel;
 import tests.MainGameLoop;
 
 public class TurnSystem extends BaseSystem {
@@ -19,7 +23,10 @@ public class TurnSystem extends BaseSystem {
 		{
 			requestUpdate = false;
 			turn++;
-			
+			for (Entity en: main.lm.models.keySet())
+			{
+				en.previousLocation = en.location;
+			}
 		}
 	}
 

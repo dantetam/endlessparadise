@@ -8,6 +8,8 @@ import levels.Tile;
 public abstract class Entity {
 
 	public Tile location;
+	public Tile previousLocation;
+	
 	public String name;
 	public ArrayList<Trait> traits = new ArrayList<Trait>();
 	

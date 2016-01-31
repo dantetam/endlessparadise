@@ -30,6 +30,26 @@ public class InputSystem extends BaseSystem {
 			System.out.println("Key " + press.key);
 			if (press.key == GLFW.GLFW_KEY_SPACE)
 				main.turnSystem.requestUpdate = true;
+			else if (press.key == GLFW.GLFW_KEY_W)
+			{
+				
+				main.turnSystem.requestUpdate = true;
+			}
+			else if (press.key == GLFW.GLFW_KEY_S)
+			{
+				
+				main.turnSystem.requestUpdate = true;
+			}
+			else if (press.key == GLFW.GLFW_KEY_A)
+			{
+				
+				main.turnSystem.requestUpdate = true;
+			}
+			else if (press.key == GLFW.GLFW_KEY_D)
+			{
+				
+				main.turnSystem.requestUpdate = true;
+			}
 		}
 	}
 
