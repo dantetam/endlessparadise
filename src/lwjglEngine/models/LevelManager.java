@@ -58,9 +58,9 @@ public class LevelManager {
 		}
 		for (Entry<Entity, TexturedModel> entry: models.entrySet())
 		{
-			Entity en = entry.getKey();
-			if (en.animations.size() > 0) continue;
 			TexturedModel model = entry.getValue();
+			if (model.animations.size() > 0) continue;
+			Entity en = entry.getKey();
 			adjustTexture(model, en.location.row, en.location.col);
 		}
 	}

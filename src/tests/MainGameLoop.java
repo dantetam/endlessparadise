@@ -33,6 +33,7 @@ public class MainGameLoop {
 	public EntityGrid grid;
 
 	public Loader loader;
+	public LevelManager lm;
 
 	public static void main(String[] args)
 	{
@@ -64,7 +65,7 @@ public class MainGameLoop {
 
 		//Just do some silly stuff to make sure all the data is initialized.
 		//NullPointerExceptions arise when data is declared and asked for in the incorrect order
-		LevelManager lm = null;
+		lm = null;
 		grid = new EntityGrid(loader,lm,rows,cols);
 		Player player = new Player();
 		player.location = grid.getTile(rows/2,cols/2);
