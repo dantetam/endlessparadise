@@ -33,17 +33,17 @@ public class TurnSystem extends BaseSystem {
 				{
 					if (!en.previousLocation.equals(en.location))
 					{
-						MoveAnimation anim = new MoveAnimation(entry.getValue(),main.lm);
+						MoveAnimation anim = new MoveAnimation(entry.getValue(),main.lm,-20,20);
 						setMoveAnimationInDirection(anim,en.location,en.previousLocation);
 						main.lm.models.get(en).animations.add(anim);
 					}
 				}
-				en.previousLocation = en.location;
+				//en.previousLocation = en.location;
 			}
 		}
 	}
 	
-	public void setMoveAnimationInDirection(MoveAnimation anim, Tile a, Tile b)
+	public static void setMoveAnimationInDirection(MoveAnimation anim, Tile a, Tile b)
 	{
 		int dr = a.row - b.row, dc = a.col - b.col;
 		if (dr == 0 && dc == 1)

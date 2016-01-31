@@ -30,6 +30,7 @@ public class EntityGrid extends ProtectedGrid<Tile,Entity> {
 
 	public void moveEntity(Entity en, int row, int col)
 	{
+		en.previousLocation = en.location;
 		Tile t = super.getTile(row, col);
 		if (en.location != null)
 		{
