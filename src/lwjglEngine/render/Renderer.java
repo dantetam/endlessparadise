@@ -15,6 +15,7 @@ import entity.Building;
 import entity.Entity;
 import entity.Monster;
 import entity.Player;
+import levels.Tile;
 
 public class Renderer {
 
@@ -27,6 +28,12 @@ public class Renderer {
 	public void render(LevelManager lm)
 	{
 		lm.update();
+		for (Entry<Tile,TexturedModel> entry: lm.tiles.entrySet())
+		{
+			TexturedModel model = entry.getValue();
+			if (model.active)
+				render(model);
+		}
 		for (Entry<Entity,TexturedModel> entry: lm.models.entrySet())
 		{
 			if (entry.getKey() instanceof Monster || entry.getKey() instanceof Player) continue;

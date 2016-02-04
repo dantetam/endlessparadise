@@ -9,6 +9,7 @@ public class Player extends CombatEntity {
 	public Player()
 	{
 		location = new Tile(50,50);
+		pictureFile = "HumanThief";
 	}
 	
 }

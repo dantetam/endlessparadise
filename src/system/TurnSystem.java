@@ -4,6 +4,7 @@ import java.util.Map.Entry;
 
 import entity.Entity;
 import entity.MoveAnimation;
+import entity.Player;
 import levels.Tile;
 import lwjglEngine.models.TexturedModel;
 import tests.MainGameLoop;
@@ -31,15 +32,15 @@ public class TurnSystem extends BaseSystem {
 				main.grid.attemptRandomMove(en);
 				if (en.previousLocation != null && en.location != null)
 				{
-					if (!en.previousLocation.equals(en.location))
+					if (!en.previousLocation.equals(en.location) && !(en instanceof Player))
 					{
 						TexturedModel model = main.lm.models.get(en);
 						MoveAnimation anim = new MoveAnimation(entry.getValue(),main.lm,-20,20);
 						int[] diff = setMoveAnimationInDirection(anim,en.location,en.previousLocation);
 						anim.data(anim.data.get(0),anim.data.get(1),model.x - model.w*diff[0],model.y - model.h*diff[1]);
-						for (double d: anim.data)
-							System.out.print(" " + d);
-						System.out.println();
+						//for (double d: anim.data)
+							//System.out.print(" " + d);
+						//System.out.println();
 						model.animations.add(anim);
 					}
 				}
