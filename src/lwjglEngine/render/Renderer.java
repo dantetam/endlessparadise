@@ -1,6 +1,6 @@
 package lwjglEngine.render;
 
-import lwjglEngine.render.GuiShader;
+import lwjglEngine.gui.GuiShader;
 import lwjglEngine.gui.GuiTexture;
 import lwjglEngine.models.LevelManager;
 import lwjglEngine.models.RawModel;

@@ -1,5 +1,6 @@
 package entity;
 
+import lwjglEngine.gui.GuiTexture;
 import lwjglEngine.models.LevelManager;
 import lwjglEngine.models.TexturedModel;
 import lwjglEngine.render.DisplayManager;
@@ -8,7 +9,10 @@ public class MoveAnimation extends Animation {
 
 	public MoveAnimation(TexturedModel model, LevelManager lm, int a, int b) {
 		super(model, lm, a, b);
-		// TODO Auto-generated constructor stub
+	}
+	
+	public MoveAnimation(GuiTexture texture, LevelManager lm, int a, int b) {
+		super(texture, lm, a, b);
 	}
 
 	public Animation left()

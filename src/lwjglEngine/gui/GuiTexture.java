@@ -1,8 +1,11 @@
 package lwjglEngine.gui;
 
+import java.util.ArrayList;
+
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector4f;
 
+import entity.Animation;
 import lwjglEngine.render.DisplayManager;
 
 //Completely scrap t
@@ -15,6 +18,7 @@ public class GuiTexture {
 	public Vector2f pixelPos, pixelSize;
 	public boolean active = false;
 	public Vector4f color = new Vector4f(0,0,0,255);
+	public ArrayList<Animation> animations = new ArrayList<Animation>();
 	
 	public GuiTexture(int t, Vector2f p, Vector2f s) {
 		texture = t;

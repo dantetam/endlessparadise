@@ -10,6 +10,7 @@ import entity.Monster;
 import entity.Player;
 import levels.ProtectedGrid;
 import levels.Tile;
+import lwjglEngine.gui.GuiTexture;
 import lwjglEngine.render.DiamondSquare;
 import lwjglEngine.render.DisplayManager;
 import lwjglEngine.render.Loader;
@@ -18,8 +19,8 @@ import tests.MainGameLoop;
 
 public class LevelManager {
 
-	public HashMap<Entity,TexturedModel> models = new HashMap<Entity,TexturedModel>();
-	public HashMap<Tile,TexturedModel> tiles = new HashMap<Tile,TexturedModel>();
+	public HashMap<Entity,GuiTexture> models = new HashMap<Entity,GuiTexture>();
+	public HashMap<Tile,GuiTexture> tiles = new HashMap<Tile,GuiTexture>();
 	public ProtectedGrid<Tile,Entity> grid;
 	public Loader loader;
 	public Player camera;
@@ -43,7 +44,7 @@ public class LevelManager {
 			{
 				Tile t = grid.getTile(r,c);
 				double numTiles = loader.tileNames.size();
-				TexturedModel model = generateTexture("./res/tiles/"+loader.tileNames.get(Math.min((int)(numTiles-1),(int)(Math.min(1,ds.t[r][c]/50D)*numTiles)))+".png");
+				GuiTexture model = generateTexture("./res/tiles/"+loader.tileNames.get(Math.min((int)(numTiles-1),(int)(Math.min(1,ds.t[r][c]/50D)*numTiles)))+".png");
 				tiles.put(t, model);
 				adjustTexture(model, r, c);
 			}
@@ -52,15 +53,15 @@ public class LevelManager {
 
 	public void update()
 	{		
-		for (Entry<Tile, TexturedModel> entry: tiles.entrySet())
+		for (Entry<Tile, GuiTexture> entry: tiles.entrySet())
 		{
 			Tile t = entry.getKey();
-			TexturedModel model = entry.getValue();
+			GuiTexture model = entry.getValue();
 			adjustTexture(model, t.row, t.col);
 		}
-		for (Entry<Entity, TexturedModel> entry: models.entrySet())
+		for (Entry<Entity, GuiTexture> entry: models.entrySet())
 		{
-			TexturedModel model = entry.getValue();
+			GuiTexture model = entry.getValue();
 			if (model.animations.size() > 0) continue;
 			Entity en = entry.getKey();
 			adjustTexture(model, en.location.row, en.location.col);
@@ -73,7 +74,7 @@ public class LevelManager {
 			fileName = loader.getRandomMonsterName();
 		en.name = fileName;
 		//System.out.println(fileName);
-		TexturedModel model = null;
+		GuiTexture model = null;
 		if (en instanceof Monster)
 			model = generateTexture("res/monsters/"+fileName+".png");
 		else if (en instanceof Building)
@@ -88,7 +89,7 @@ public class LevelManager {
 
 	public void moveEntity(Entity en, int r, int c)
 	{
-		TexturedModel model = models.get(en);
+		GuiTexture model = models.get(en);
 		if (model == null) 
 		{
 			addEntity(en,en.pictureFile,r,c);
@@ -100,13 +101,13 @@ public class LevelManager {
 
 	public void removeEntity(Entity en)
 	{
-		TexturedModel removing = models.remove(en);
+		GuiTexture removing = models.remove(en);
 		removing.active = false;
 	}
 
-	public TexturedModel generateTexture(String textureName)
+	public GuiTexture generateTexture(String textureName)
 	{
-		//counter clockwise vertices
+		/*//counter clockwise vertices
 		float[] vertices = {
 				//Left bottom and top right, resp.
 				-0.5f, 0.5f, 0f,	
@@ -128,11 +129,12 @@ public class LevelManager {
 		//texture = new ModelTexture(loader.loadTexture(textureName,0,0,12,12));
 		else
 			texture = new ModelTexture(loader.loadTexture(textureName));
-		TexturedModel texturedModel = new TexturedModel(model, texture);
+		TexturedModel texturedModel = new TexturedModel(model, texture);*/
+		GuiTexture guiTexture = new GuiTexture();
 		return texturedModel;
 	}
 
-	public void adjustTexture(TexturedModel model, int r, int c)
+	public void adjustTexture(GuiTexture model, int r, int c)
 	{
 		//System.out.println(camera.location);
 		Tile t = camera.previousLocation == null ? camera.location : camera.previousLocation;
@@ -159,7 +161,7 @@ public class LevelManager {
 		}
 	}
 
-	public void adjustTextureManual(TexturedModel model, float x, float y, float width, float height)
+	public void adjustTextureManual(GuiTexture model, float x, float y, float width, float height)
 	{
 		//x = x*2 - 1; y = y*2 - 1;
 		//width *= 2; height *= 2;
@@ -176,7 +178,7 @@ public class LevelManager {
 		}
 	}
 
-	public void generateVertices(TexturedModel texturedModel, float x, float y, float width, float height)
+	public void generateVertices(GuiTexture texturedModel, float x, float y, float width, float height)
 	{
 		texturedModel.set(x,y,width,height);
 
