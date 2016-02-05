@@ -43,7 +43,7 @@ public class LevelManager {
 			{
 				Tile t = grid.getTile(r,c);
 				double numTiles = loader.tileNames.size();
-				TexturedModel model = generateTexture("./res/tiles/"+loader.tileNames.get(Math.min((int)(numTiles-1),(int)(Math.min(1,ds.t[r][c]/150D)*numTiles)))+".png");
+				TexturedModel model = generateTexture("./res/tiles/"+loader.tileNames.get(Math.min((int)(numTiles-1),(int)(Math.min(1,ds.t[r][c]/50D)*numTiles)))+".png");
 				tiles.put(t, model);
 				adjustTexture(model, r, c);
 			}
@@ -51,7 +51,7 @@ public class LevelManager {
 	}
 
 	public void update()
-	{
+	{		
 		for (Entry<Tile, TexturedModel> entry: tiles.entrySet())
 		{
 			Tile t = entry.getKey();
@@ -149,6 +149,8 @@ public class LevelManager {
 			model.active = true;
 			float width = 1f/(float)(1 + 2*camera.sightXHalf);
 			float height = 1f/(float)(1 + 2*camera.sightYHalf);
+			
+			//This is causing the memory leak. I am creating too many VAOs. Use shaders to move GUIs. Look in orig 2d early tutorials or GUI shaders?
 			generateVertices(model, (float)((r-minX)*width), (float)((c-minY)*height), width, height);
 		}
 		else 
@@ -194,7 +196,8 @@ public class LevelManager {
 		float[] textureCoords = {0,0,0,1,1,1,1,0};
 
 		RawModel model = loader.loadToVAO(vertices, textureCoords, indices);
-		texturedModel.rawModel = model;
+		//RawModel model = loader.loadToVAO(vertices);
+		//texturedModel.rawModel = model;
 		//return texturedModel;
 	}
 

@@ -36,6 +36,8 @@ public class MainGameLoop {
 	public LevelManager lm;
 	public Player player;
 
+	public int frame = 0;
+	
 	public static void main(String[] args)
 	{
 		new MainGameLoop();
@@ -54,8 +56,8 @@ public class MainGameLoop {
 
 		systems.add(inputSystem);
 		systems.add(turnSystem);
-		systems.add(animationSystem);
-		systems.add(menuSystem);
+		//systems.add(animationSystem);
+		//systems.add(menuSystem);
 
 		DisplayManager.createDisplay(this);
 		loader = new Loader();
@@ -88,6 +90,7 @@ public class MainGameLoop {
 			//renderer.render(texturedModel);
 			shader.stop(); //Disable shader when the draw is done
 			DisplayManager.updateDisplay();
+			//if (frame == 200) System.out.println("LevelManager: " + lm.models.entrySet().size());
 		}
 
 		//Clean up data
@@ -114,7 +117,7 @@ public class MainGameLoop {
 				else
 					System.out.print(" ");*/
 			}
-			System.out.println();
+			//System.out.println();
 		}
 		for (int i = 0; i < rows*cols/6; i++)
 		{

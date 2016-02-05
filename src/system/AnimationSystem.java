@@ -9,8 +9,6 @@ import tests.MainGameLoop;
 
 public class AnimationSystem extends BaseSystem {
 
-	public int frame = 0;
-
 	public AnimationSystem(MainGameLoop game) {
 		super(game);
 		// TODO Auto-generated constructor stub
@@ -18,7 +16,7 @@ public class AnimationSystem extends BaseSystem {
 
 	@Override
 	public void tick() {
-		frame++;
+		main.frame++;
 		for (Entry<Entity,TexturedModel> entry: main.lm.models.entrySet())
 		{
 			Entity en = entry.getKey();
