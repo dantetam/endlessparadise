@@ -91,7 +91,7 @@ public class TextBox extends GuiTexture {
 	{
 		pos.x = x/DisplayManager.width;
 		pos.y = y/DisplayManager.height;
-		origPos = new Vector2f(x,y);
+		origPixelPos = new Vector2f(x,y);
 		pixelPos.x = x;
 		pixelPos.y = y; //pixelSize.y = y haha
 		//String text = display.size() > 0 ? display.get(0) : null;

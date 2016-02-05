@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import org.lwjgl.util.vector.Vector2f;
+
 import entity.Building;
 import entity.Entity;
 import entity.Monster;
@@ -130,8 +132,8 @@ public class LevelManager {
 		else
 			texture = new ModelTexture(loader.loadTexture(textureName));
 		TexturedModel texturedModel = new TexturedModel(model, texture);*/
-		GuiTexture guiTexture = new GuiTexture();
-		return texturedModel;
+		GuiTexture guiTexture = new GuiTexture(loader.loadTexture(textureName),null,null);
+		return guiTexture;
 	}
 
 	public void adjustTexture(GuiTexture model, int r, int c)
@@ -153,7 +155,7 @@ public class LevelManager {
 			float height = 1f/(float)(1 + 2*camera.sightYHalf);
 			
 			//This is causing the memory leak. I am creating too many VAOs. Use shaders to move GUIs. Look in orig 2d early tutorials or GUI shaders?
-			generateVertices(model, (float)((r-minX)*width), (float)((c-minY)*height), width, height);
+			model.adjustByProportion(new Vector2f((float)((r-minX)*width), (float)((c-minY)*height)), new Vector2f(width, height));
 		}
 		else 
 		{
@@ -165,12 +167,10 @@ public class LevelManager {
 	{
 		//x = x*2 - 1; y = y*2 - 1;
 		//width *= 2; height *= 2;
-
-		model.set(x,y,width,height);
 		if (x >= -1 && y >= -1 && x <= 1 && y <= 1)
 		{
 			model.active = true;
-			generateVertices(model, x, y, width, height);
+			model.adjustByProportion(new Vector2f(x, y), new Vector2f(width, height));
 		}
 		else
 		{
@@ -178,9 +178,9 @@ public class LevelManager {
 		}
 	}
 
-	public void generateVertices(GuiTexture texturedModel, float x, float y, float width, float height)
+	/*public void generateVertices(GuiTexture texturedModel, float x, float y, float width, float height)
 	{
-		texturedModel.set(x,y,width,height);
+		//texturedModel.set(x,y,width,height);
 
 		x = x*2 - 1; y = y*2 - 1;
 		width *= 2; height *= 2;
@@ -201,6 +201,6 @@ public class LevelManager {
 		//RawModel model = loader.loadToVAO(vertices);
 		//texturedModel.rawModel = model;
 		//return texturedModel;
-	}
+	}*/
 
 }
