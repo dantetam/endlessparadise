@@ -5,6 +5,7 @@ import entity.CombatEntity;
 import entity.Entity;
 import entity.Monster;
 import entity.Player;
+import lwjglEngine.gui.GuiTexture;
 import lwjglEngine.models.LevelManager;
 import lwjglEngine.models.TexturedModel;
 import lwjglEngine.render.Loader;
@@ -88,7 +89,7 @@ public class EntityGrid extends ProtectedGrid<Tile,Entity> {
 	
 	public void attack(CombatEntity atk, CombatEntity def)
 	{
-		TexturedModel atkModel = lm.models.get(atk), defModel = lm.models.get(def);
+		GuiTexture atkModel = lm.models.get(atk), defModel = lm.models.get(def);
 		if (atkModel.animations.isEmpty())
 			atkModel.animations.add(new CombatAnimation(atkModel,lm,0,20).random());
 		if (defModel.animations.isEmpty())

@@ -1,11 +1,12 @@
 package entity;
 
+import lwjglEngine.gui.GuiTexture;
 import lwjglEngine.models.LevelManager;
 import lwjglEngine.models.TexturedModel;
 
 public class CombatAnimation extends Animation {
 
-	public CombatAnimation(TexturedModel m, LevelManager lm, int a, int b) {
+	public CombatAnimation(GuiTexture m, LevelManager lm, int a, int b) {
 		super(m, lm, a, b);
 		// TODO Auto-generated constructor stub
 	}

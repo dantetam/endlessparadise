@@ -48,23 +48,23 @@ public class Renderer {
 	public void render(LevelManager lm)
 	{
 		lm.update();
-		for (Entry<Tile,TexturedModel> entry: lm.tiles.entrySet())
+		for (Entry<Tile,GuiTexture> entry: lm.tiles.entrySet())
 		{
-			TexturedModel model = entry.getValue();
+			GuiTexture model = entry.getValue();
 			if (model.active)
 				render(model);
 		}
-		for (Entry<Entity,TexturedModel> entry: lm.models.entrySet())
+		for (Entry<Entity,GuiTexture> entry: lm.models.entrySet())
 		{
 			if (entry.getKey() instanceof Monster || entry.getKey() instanceof Player) continue;
-			TexturedModel model = entry.getValue();
+			GuiTexture model = entry.getValue();
 			if (model.active)
 				render(model);
 		}
-		for (Entry<Entity,TexturedModel> entry: lm.models.entrySet())
+		for (Entry<Entity,GuiTexture> entry: lm.models.entrySet())
 		{
 			if (entry.getKey() instanceof Building) continue;
-			TexturedModel model = entry.getValue();
+			GuiTexture model = entry.getValue();
 			if (model.active)
 				render(model);
 		}
@@ -72,25 +72,24 @@ public class Renderer {
 
 	//The textured model encapsulates a RawModel
 	//Access a VAO by using the data contained within a RawModel object
-	public void render(TexturedModel texturedModel)
+	public void render(GuiTexture gui)
 	{
 		shader.start();
 		GL30.glBindVertexArray(quad.vaoID);
 		GL20.glEnableVertexAttribArray(0);
-		for (GuiTexture gui: guisActive)
-		{
-			GL13.glActiveTexture(GL13.GL_TEXTURE0);
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, gui.texture);
-			Matrix4f matrix = createTransformationMatrix(
-					normalize(new Vector2f(gui.pixelPos.x + gui.pixelSize.x/2, DisplayManager.height - (gui.pixelPos.y + gui.pixelSize.y/2))), 
-					normalizeSize(gui.pixelSize)
-					);
-			shader.loadColor(new Vector4f(gui.color.x/255f, gui.color.y/255f, gui.color.z/255f, gui.color.w/255f));
-			//if (gui instanceof TextBox)
-			//System.out.println(gui.color + " " + ((TextBox)gui).display.get(0));
-			shader.loadTransformation(matrix);
-			GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.vertexCount);
-		}
+
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, gui.texture);
+		Matrix4f matrix = createTransformationMatrix(
+				normalize(new Vector2f(gui.pixelPos.x + gui.pixelSize.x/2, DisplayManager.height - (gui.pixelPos.y + gui.pixelSize.y/2))), 
+				normalizeSize(gui.pixelSize)
+				);
+		shader.loadColor(new Vector4f(gui.color.x/255f, gui.color.y/255f, gui.color.z/255f, gui.color.w/255f));
+		//if (gui instanceof TextBox)
+		//System.out.println(gui.color + " " + ((TextBox)gui).display.get(0));
+		shader.loadTransformation(matrix);
+		GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.vertexCount);
+
 		GL20.glDisableVertexAttribArray(0);
 		GL30.glBindVertexArray(0);
 		/*for (GuiTexture gui: guis)

@@ -6,6 +6,7 @@ import entity.Entity;
 import entity.MoveAnimation;
 import entity.Player;
 import levels.Tile;
+import lwjglEngine.gui.GuiTexture;
 import lwjglEngine.models.TexturedModel;
 import tests.MainGameLoop;
 
@@ -26,7 +27,7 @@ public class TurnSystem extends BaseSystem {
 		{
 			requestUpdate = false;
 			turn++;
-			for (Entry<Entity,TexturedModel> entry: main.lm.models.entrySet())
+			for (Entry<Entity,GuiTexture> entry: main.lm.models.entrySet())
 			{
 				Entity en = entry.getKey();
 				main.grid.attemptRandomMove(en);
@@ -34,7 +35,7 @@ public class TurnSystem extends BaseSystem {
 				{
 					if (!en.previousLocation.equals(en.location) && !(en instanceof Player))
 					{
-						TexturedModel model = main.lm.models.get(en);
+						GuiTexture model = main.lm.models.get(en);
 						MoveAnimation anim = new MoveAnimation(entry.getValue(),main.lm,-20,20);
 						int[] diff = setMoveAnimationInDirection(anim,en.location,en.previousLocation);
 						anim.data(anim.data.get(0),anim.data.get(1),model.x - model.w*diff[0],model.y - model.h*diff[1]);

@@ -63,7 +63,7 @@ public class MainGameLoop {
 		loader = new Loader();
 		loader.init();
 		TextMaster.init(loader);
-		Renderer renderer = new Renderer();
+		Renderer renderer = new Renderer(loader);
 		StaticShader shader = new StaticShader();
 
 		//Just do some silly stuff to make sure all the data is initialized.

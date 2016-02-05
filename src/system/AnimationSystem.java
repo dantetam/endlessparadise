@@ -4,6 +4,7 @@ import java.util.Map.Entry;
 
 import entity.Animation;
 import entity.Entity;
+import lwjglEngine.gui.GuiTexture;
 import lwjglEngine.models.TexturedModel;
 import tests.MainGameLoop;
 
@@ -17,10 +18,10 @@ public class AnimationSystem extends BaseSystem {
 	@Override
 	public void tick() {
 		main.frame++;
-		for (Entry<Entity,TexturedModel> entry: main.lm.models.entrySet())
+		for (Entry<Entity,GuiTexture> entry: main.lm.models.entrySet())
 		{
 			Entity en = entry.getKey();
-			TexturedModel model = entry.getValue();
+			GuiTexture model = entry.getValue();
 			if (!model.animations.isEmpty())
 			{
 				Animation anim = model.animations.get(0);

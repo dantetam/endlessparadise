@@ -27,7 +27,7 @@ public class GuiShader extends ShaderProgram {
 		location_colour = super.getUniformLocation("colour");
 	}
 	
-	protected void loadColor(Vector4f vector4f){
+	public void loadColor(Vector4f vector4f){
 		super.loadVector4f(location_colour, vector4f);
 	}
 

@@ -7,9 +7,9 @@ import lwjglEngine.render.DisplayManager;
 
 public class MoveAnimation extends Animation {
 
-	public MoveAnimation(TexturedModel model, LevelManager lm, int a, int b) {
+	/*public MoveAnimation(TexturedModel model, LevelManager lm, int a, int b) {
 		super(model, lm, a, b);
-	}
+	}*/
 	
 	public MoveAnimation(GuiTexture texture, LevelManager lm, int a, int b) {
 		super(texture, lm, a, b);
@@ -52,7 +52,7 @@ public class MoveAnimation extends Animation {
 		//if (data.size() == 0)
 		//Why no auto unbox?
 		if (frame < 0) return;
-		lm.adjustTextureManual(model, (float)(double)(data.get(2)+data.get(0)*frame), (float)(double)(data.get(3)+data.get(1)*frame), model.w, model.h);
+		lm.adjustTextureManual(texture, (float)(double)(data.get(2)+data.get(0)*frame), (float)(double)(data.get(3)+data.get(1)*frame), texture.size.x, texture.size.y);
 	}
 	
 	

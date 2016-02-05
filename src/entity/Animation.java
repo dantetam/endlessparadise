@@ -10,17 +10,17 @@ public abstract class Animation {
 
 	public int frame, framesTotal;
 	public ArrayList<Double> data = new ArrayList<Double>();
-	public TexturedModel model;
+	//public TexturedModel model;
 	public GuiTexture texture;
 	public static LevelManager lm = null;
 	
-	public Animation(TexturedModel m, LevelManager lm, int a, int b) {
+	/*public Animation(TexturedModel m, LevelManager lm, int a, int b) {
 		model = m;
 		frame = a;
 		framesTotal = b;
 		if (Animation.lm == null)
 			Animation.lm = lm;
-	}
+	}*/
 	
 	public Animation(GuiTexture m, LevelManager lm, int a, int b) {
 		texture = m;
