@@ -38,7 +38,8 @@ public class TurnSystem extends BaseSystem {
 						GuiTexture model = main.lm.models.get(en);
 						MoveAnimation anim = new MoveAnimation(entry.getValue(),main.lm,-20,20);
 						int[] diff = setMoveAnimationInDirection(anim,en.location,en.previousLocation);
-						anim.data(anim.data.get(0),anim.data.get(1),model.x - model.w*diff[0],model.y - model.h*diff[1]);
+						if (model.pos != null && model.size != null)
+							anim.data(anim.data.get(0),anim.data.get(1),model.pos.x - model.size.x*diff[0],model.pos.y - model.size.y*diff[1]);
 						//for (double d: anim.data)
 							//System.out.print(" " + d);
 						//System.out.println();
