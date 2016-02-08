@@ -39,14 +39,15 @@ public class LevelManager {
 		ds.seed(870691);
 		//ds.diamond(0, 0, 4);
 		ds.dS(0, 0, width, 100, 0.5, false, true);
-
+		//ds.printTable(ds.t);
+		
 		for (int r = 0; r < grid.rows; r++)
 		{
 			for (int c = 0; c < grid.cols; c++)
 			{
 				Tile t = grid.getTile(r,c);
 				double numTiles = loader.tileNames.size();
-				GuiTexture model = generateTexture("./res/tiles/"+loader.tileNames.get(Math.min((int)(numTiles-1),(int)(Math.min(1,ds.t[r][c]/50D)*numTiles)))+".png");
+				GuiTexture model = generateTexture("./res/tiles/"+loader.tileNames.get(Math.min((int)(numTiles-1),(int)(Math.min(1,ds.t[r][c]/300D)*numTiles)))+".png");
 				tiles.put(t, model);
 				adjustTexture(model, r, c);
 			}

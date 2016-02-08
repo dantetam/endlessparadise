@@ -148,12 +148,12 @@ public class Loader {
 
 		int width = r2 - r1; int height = c2 - c1;
 		
-		int[] temp = new int[width * height];
-		image.getRGB(0, 0, width, height, temp, 0, width);
-
 		int[] pixels = new int[width * height];
-		for (int i = 0; i < pixels.length; i++)
-			pixels[i] = temp[pixels.length - 1 - i];
+		image.getRGB(0, 0, width, height, pixels, 0, width);
+
+		//int[] pixels = new int[width * height];
+		//for (int i = 0; i < pixels.length; i++)
+			//pixels[i] = temp[pixels.length - 1 - i];
 		
 		ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * BYTES_PER_PIXEL); //4 for RGBA, 3 for RGB
 		for (int y = c1; y < c2; y++)
