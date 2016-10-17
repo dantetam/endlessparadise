@@ -34,22 +34,22 @@ public class InputSystem extends BaseSystem {
 				main.turnSystem.requestUpdate = true;
 			else if (press.key == GLFW.GLFW_KEY_W)
 			{
-				main.grid.attackOrMove(main.player,main.grid.getTile(t.row-1,t.col));
+				main.grid.attackOrMove(main.player,main.grid.getTile(t.row,t.col-1));
 				main.turnSystem.requestUpdate = true;
 			}
 			else if (press.key == GLFW.GLFW_KEY_S)
 			{
-				main.grid.attackOrMove(main.player,main.grid.getTile(t.row+1,t.col));				
+				main.grid.attackOrMove(main.player,main.grid.getTile(t.row,t.col+1));				
 				main.turnSystem.requestUpdate = true;
 			}
 			else if (press.key == GLFW.GLFW_KEY_A)
 			{
-				main.grid.attackOrMove(main.player,main.grid.getTile(t.row,t.col-1));
+				main.grid.attackOrMove(main.player,main.grid.getTile(t.row-1,t.col));
 				main.turnSystem.requestUpdate = true;
 			}
 			else if (press.key == GLFW.GLFW_KEY_D)
 			{
-				main.grid.attackOrMove(main.player,main.grid.getTile(t.row,t.col+1));
+				main.grid.attackOrMove(main.player,main.grid.getTile(t.row+1,t.col));
 				main.turnSystem.requestUpdate = true;
 			}
 		}
